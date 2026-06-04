@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colombia 2026 · Segunda Vuelta Presidencial</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --red: #C0392B;
+    --blue: #1A3A5C;
+    --blue-mid: #2560A0;
+    --bg: #0D0D0D;
+    --bg2: #161616;
+    --bg3: #1E1E1E;
+    --text: #E8E0D0;
+    --text-muted: #8A8070;
+    --border: #2A2A2A;
+    --espriella: #C9511B;
+    --espriella-light: #F07040;
+    --cepeda: #1E5C8E;
+    --cepeda-light: #4090C8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(201,81,27,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 60% at 80% 50%, rgba(30,92,142,0.18) 0%, transparent 60%),
+      radial-gradient(circle at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  }
+
+  .divider-v {
+    position: absolute;
+    left: 50%; top: 10%; height: 80%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
+    opacity: 0.4;
+  }
+
+  .flag-stripe {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #FCD116 33%, #003087 33% 66%, #CE1126 66%);
+  }
+
+  .header-inner { position: relative; z-index: 2; max-width: 900px; }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  h1 span.accent { color: var(--gold); }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .date-badge::before {
+    content: '▶';
+    font-size: 8px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    color: var(--text-muted);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: float 3s ease-in-out infinite;
+  }
+  .scroll-hint::after {
+    content: '';
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+  /* NAVIGATION */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+  }
+
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex; gap: 4px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); background: var(--bg3); }
+
+  /* SECTIONS */
+  section { padding: 100px 20px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 680px;
+    margin-bottom: 60px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* CANDIDATES SPLIT */
+  .candidates-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 60px;
+  }
+
+  .candidate-card {
+    background: var(--bg2);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .candidate-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .candidate-card.espriella::before { background: linear-gradient(90deg, var(--espriella), var(--espriella-light)); }
+  .candidate-card.cepeda::before { background: linear-gradient(90deg, var(--cepeda), var(--cepeda-light)); }
+
+  .candidate-card::after {
+    content: attr(data-initial);
+    position: absolute;
+    right: -20px; bottom: -30px;
+    font-family: 'Playfair Display', serif;
+    font-size: 180px;
+    font-weight: 900;
+    opacity: 0.04;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .card-tag::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .espriella .card-tag { color: var(--espriella-light); }
+  .espriella .card-tag::before { background: var(--espriella-light); }
+  .cepeda .card-tag { color: var(--cepeda-light); }
+  .cepeda .card-tag::before { background: var(--cepeda-light); }
+
+  .candidate-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+
+  .candidate-role {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .candidate-age {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+
+  .info-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .info-list li {
+    display: flex; gap: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .info-list li::before {
+    content: '→';
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.5;
+  }
+
+  .vice-badge {
+    margin-top: 32px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+
+  .vice-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .vice-name {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .vice-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* VOTE RESULTS BAR */
+  .results-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    margin-bottom: 40px;
+  }
+
+  .results-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .results-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .vote-bar-wrap { margin-bottom: 28px; }
+
+  .vote-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .vote-bar-name {
+    font-size: 14px;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .vote-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .vote-bar-pct {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .vote-bar-votes {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  .bar-track {
+    height: 8px;
+    background: var(--bg3);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.5s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .espriella-fill { background: linear-gradient(90deg, var(--espriella), var(--espriella-light)); }
+  .cepeda-fill { background: linear-gradient(90deg, var(--cepeda), var(--cepeda-light)); }
+  .other-fill { background: var(--bg); }
+
+  .turnout-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .turnout-item { flex: 1; }
+  .turnout-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .turnout-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .turnout-sub { font-size: 12px; color: var(--text-muted); }
+
+  /* CHARTS */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .chart-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    position: relative;
+  }
+
+  .chart-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  /* Radar / Spider chart — pure CSS simulation */
+  .radar-wrapper {
+    display: flex; gap: 32px; align-items: center;
+  }
+
+  /* Academic chart - horizontal bars */
+  .acad-bars { display: flex; flex-direction: column; gap: 16px; }
+  .acad-row { display: flex; flex-direction: column; gap: 8px; }
+  .acad-label { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; }
+  .acad-label span { font-family: 'DM Mono', monospace; font-size: 11px; }
+  .acad-bar-track { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .acad-bar-fill { height: 100%; border-radius: 3px; }
+
+  /* Hexagon stat */
+  .hex-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hex-stat {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 20px 16px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .hex-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .hex-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* SVG chart */
+  .svg-chart { width: 100%; }
+
+  /* COMPARATIVE TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .compare-table th, .compare-table td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .compare-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: var(--bg3);
+    font-weight: 400;
+  }
+
+  .compare-table th.espriella-col { color: var(--espriella-light); }
+  .compare-table th.cepeda-col { color: var(--cepeda-light); }
+
+  .compare-table td:first-child {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    width: 200px;
+  }
+
+  .compare-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .tag-e { background: rgba(201,81,27,0.2); color: var(--espriella-light); }
+  .tag-c { background: rgba(30,92,142,0.2); color: var(--cepeda-light); }
+  .tag-n { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+  /* INSIGHT CARDS */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .insight-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .insight-card:hover { border-color: var(--gold); }
+
+  .insight-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .insight-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .insight-body {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .insight-verdict {
+    margin-top: 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .verdict-e { color: var(--espriella-light); }
+  .verdict-c { color: var(--cepeda-light); }
+  .verdict-tie { color: var(--gold); }
+
+  /* POLLS */
+  .poll-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    margin-bottom: 16px;
+  }
+
+  .poll-title { font-size: 14px; font-weight: 500; margin-bottom: 20px; }
+  .poll-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); float: right; }
+
+  .poll-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .poll-label { font-size: 13px; width: 180px; flex-shrink: 0; }
+  .poll-track { flex: 1; height: 10px; background: var(--bg3); border-radius: 5px; overflow: hidden; }
+  .poll-fill { height: 100%; border-radius: 5px; }
+  .poll-pct { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; min-width: 56px; text-align: right; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 20px;
+    text-align: center;
+  }
+
+  .footer-inner { max-width: 600px; margin: 0 auto; }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .footer-text { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .footer-sources {
+    margin-top: 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* DIVIDERS */
+  hr { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .candidates-grid { grid-template-columns: 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .turnout-row { flex-direction: column; gap: 24px; }
+    .nav-links { display: none; }
+    .candidate-card { padding: 32px 24px; }
+  }
+
+  /* Animated bar on scroll */
+  .bar-fill[data-width] { width: 0%; }
+  .bar-fill.animated { transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+
+  /* Section fade-in */
+  .fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+  .fade-section.visible { opacity: 1; transform: translateY(0); }
+
+  /* Color blocks for donut simulation */
+  .donut-wrap { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+  .donut-svg { flex-shrink: 0; }
+  .donut-legend { flex: 1; min-width: 200px; }
+  .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-pct { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 18px; min-width: 52px; }
+  .legend-label { color: var(--text-muted); font-size: 12px; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="flag-stripe"></div>
+  <div class="divider-v"></div>
+  <div class="header-inner">
+    <div class="eyebrow">Análisis Comparativo · Elecciones Presidenciales</div>
+    <h1>Colombia<br><span class="accent">2026</span></h1>
+    <p class="subtitle">Segunda vuelta presidencial: un análisis riguroso de ambas fórmulas, sus perfiles académicos, capacidad de gestión e ideología política.</p>
+    <div class="date-badge">Segunda Vuelta · Domingo 21 de Junio, 2026</div>
+  </div>
+  <div class="scroll-hint">Explorar</div>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">CO·2026</div>
+    <ul class="nav-links">
+      <li><a href="#candidatos">Candidatos</a></li>
+      <li><a href="#resultados">Resultados</a></li>
+      <li><a href="#academico">Perfil Académico</a></li>
+      <li><a href="#gestion">Gestión</a></li>
+      <li><a href="#comparativa">Comparativa</a></li>
+      <li><a href="#insights">Insights</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- CANDIDATOS -->
+<section id="candidatos">
+  <div class="container">
+    <div class="section-label">Las Fórmulas</div>
+    <h2>Los Candidatos a la<br>Casa de Nariño</h2>
+    <p class="lead">Dos visiones radicalmente distintas del país se enfrentan el 21 de junio. De la Espriella, el abogado outsider de derecha; Cepeda, el senador progresista de izquierda.</p>
+
+    <div class="candidates-grid">
+      <!-- DE LA ESPRIELLA -->
+      <div class="candidate-card espriella fade-section" data-initial="D">
+        <div class="card-tag">Candidato Presidencial · Derecha</div>
+        <div class="candidate-name">Abelardo de la<br>Espriella Otero</div>
+        <div class="candidate-role">Abogado penalista · Empresario · Fundador Defensores de la Patria</div>
+        <div class="candidate-age">📍 Nacido en Bogotá · 47 años · Montería, Córdoba</div>
+        <ul class="info-list">
+          <li>Abogado de la Universidad Sergio Arboleda (2000)</li>
+          <li>Especialista en Derecho Penal y Criminología — Externado de Colombia</li>
+          <li>Especialista en Derecho Administrativo — Universidad del Rosario</li>
+          <li>Maestría en Derecho — Universidad Sergio Arboleda & Universidad Nebrija (España)</li>
+          <li>Doctor Honoris Causa — U. Autónoma del Caribe (2016) & FIA (2021)</li>
+          <li>Fundador De La Espriella Lawyers Enterprise (+5.000 procesos)</li>
+          <li>Primer candidato presidencial sin cargo público previo</li>
+        </ul>
+        <div class="vice-badge">
+          <div class="vice-label">Fórmula Vicepresidencial</div>
+          <div class="vice-name">José Manuel Restrepo Abondano</div>
+          <div class="vice-desc">Economista · Maestría LSE · Doctorado Univ. Bath · Ex-ministro de Hacienda y Comercio (Gobierno Duque) · Rector Univ. Rosario y EIA</div>
+        </div>
+      </div>
+
+      <!-- CEPEDA -->
+      <div class="candidate-card cepeda fade-section" data-initial="C">
+        <div class="card-tag">Candidato Presidencial · Izquierda</div>
+        <div class="candidate-name">Iván Cepeda<br>Castro</div>
+        <div class="candidate-role">Senador de la República · Defensor de Derechos Humanos · Pacto Histórico</div>
+        <div class="candidate-age">📍 Nacido en Bogotá · 63 años · Hijo del senador Manuel Cepeda</div>
+        <ul class="info-list">
+          <li>Pregrado en Filosofía — U. San Clemente de Ohrid, Sofía, Bulgaria (1987)</li>
+          <li>Maestría en Derecho Internacional Humanitario — U. Católica de Lyon, Francia (2002)</li>
+          <li>Docente de Filosofía — U. INCCA de Colombia (1990–1995)</li>
+          <li>Fundador MOVICE — Movimiento de Víctimas de Crímenes de Estado</li>
+          <li>16 años en el Congreso: Cámara (2010–2014) + Senado (2014–2026)</li>
+          <li>Premio "Medalla de la Libertad Roger Baldwin" — Human Rights First (2007)</li>
+          <li>Premio Franco-Alemán de DD.HH. "Antonio Nariño" (2015)</li>
+        </ul>
+        <div class="vice-badge">
+          <div class="vice-label">Fórmula Vicepresidencial</div>
+          <div class="vice-name">Aída Marina Quilcué Vivas</div>
+          <div class="vice-desc">Lideresa indígena Nasa · Ex-Consejera Mayor CRIC · Senadora (2022–2026) · Delegada ONU e ONIC · Asesora UNESCO · Premio DDHH "Defensa a toda una vida" (2021)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section id="resultados" style="background: var(--bg2); padding-top: 80px; padding-bottom: 80px;">
+  <div class="container">
+    <div class="section-label">Primera Vuelta · 31 Mayo 2026</div>
+    <h2>Resultados Electorales</h2>
+    <p class="lead">Con más del 55% de participación, la mayor en 20 años. Ningún candidato superó el 50%.</p>
+
+    <div class="results-section fade-section">
+      <div class="results-title">Preconteo Final — 100% de mesas informadas</div>
+      <div class="results-sub">Registraduría Nacional del Estado Civil · 31 mayo 2026</div>
+
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-header">
+          <div class="vote-bar-name"><span class="vote-dot" style="background:var(--espriella-light)"></span>Abelardo de la Espriella</div>
+          <div>
+            <div class="vote-bar-pct" style="color:var(--espriella-light)">43,74%</div>
+            <div class="vote-bar-votes">10.361.499 votos</div>
+          </div>
+        </div>
+        <div class="bar-track"><div class="bar-fill espriella-fill" style="width:0%" data-width="43.74"></div></div>
+      </div>
+
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-header">
+          <div class="vote-bar-name"><span class="vote-dot" style="background:var(--cepeda-light)"></span>Iván Cepeda Castro</div>
+          <div>
+            <div class="vote-bar-pct" style="color:var(--cepeda-light)">40,90%</div>
+            <div class="vote-bar-votes">9.688.245 votos</div>
+          </div>
+        </div>
+        <div class="bar-track"><div class="bar-fill cepeda-fill" style="width:0%" data-width="40.90"></div></div>
+      </div>
+
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-header">
+          <div class="vote-bar-name"><span class="vote-dot" style="background:var(--text-muted)"></span>Paloma Valencia</div>
+          <div>
+            <div class="vote-bar-pct" style="color:var(--text-muted)">6,92%</div>
+            <div class="vote-bar-votes">1.638.925 votos</div>
+          </div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--text-muted)" data-width="6.92"></div></div>
+      </div>
+
+      <div class="vote-bar-wrap">
+        <div class="vote-bar-header">
+          <div class="vote-bar-name"><span class="vote-dot" style="background:#444"></span>Otros candidatos</div>
+          <div>
+            <div class="vote-bar-pct" style="color:#666">8,44%</div>
+            <div class="vote-bar-votes">~2.000.000 votos</div>
+          </div>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#333" data-width="8.44"></div></div>
+      </div>
+
+      <div class="turnout-row">
+        <div class="turnout-item">
+          <div class="turnout-label">Participación</div>
+          <div class="turnout-value">~55%</div>
+          <div class="turnout-sub">La más alta en 20 años</div>
+        </div>
+        <div class="turnout-item">
+          <div class="turnout-label">Censo Electoral</div>
+          <div class="turnout-value">41M+</div>
+          <div class="turnout-sub">Colombianos habilitados</div>
+        </div>
+        <div class="turnout-item">
+          <div class="turnout-label">Total votos emitidos</div>
+          <div class="turnout-value">~24M</div>
+          <div class="turnout-sub">Votos válidos contabilizados</div>
+        </div>
+        <div class="turnout-item">
+          <div class="turnout-label">Diferencia 1ª vuelta</div>
+          <div class="turnout-value">2,84pp</div>
+          <div class="turnout-sub">~673K votos entre 1° y 2°</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DONUT - Distribución -->
+    <div class="charts-grid fade-section">
+      <div class="chart-card">
+        <div class="chart-title">Distribución del Voto · Primera Vuelta</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" width="160" height="160" viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="60" fill="none" stroke="var(--bg3)" stroke-width="24"/>
+            <!-- Espriella 43.74% → 274.8 / 377 = stroke-dashoffset -->
+            <circle cx="80" cy="80" r="60" fill="none" stroke="var(--espriella-light)" stroke-width="24"
+              stroke-dasharray="163.9 213.9" stroke-dashoffset="94.2" transform="rotate(-90 80 80)" opacity="0.9"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="var(--cepeda-light)" stroke-width="24"
+              stroke-dasharray="153.4 224.4" stroke-dashoffset="-69.7" transform="rotate(-90 80 80)" opacity="0.9"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#6B7280" stroke-width="24"
+              stroke-dasharray="25.9 351.9" stroke-dashoffset="-223.1" transform="rotate(-90 80 80)" opacity="0.7"/>
+            <circle cx="80" cy="80" r="60" fill="none" stroke="#374151" stroke-width="24"
+              stroke-dasharray="31.6 346.2" stroke-dashoffset="-249" transform="rotate(-90 80 80)" opacity="0.7"/>
+            <text x="80" y="76" text-anchor="middle" fill="var(--text)" font-family="Playfair Display" font-size="18" font-weight="700">2ª</text>
+            <text x="80" y="94" text-anchor="middle" fill="var(--text-muted)" font-family="DM Sans" font-size="10">vuelta</text>
+          </svg>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--espriella-light)"></div>
+              <div class="legend-pct" style="color:var(--espriella-light)">43,74%</div>
+              <div class="legend-label">De la Espriella</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:var(--cepeda-light)"></div>
+              <div class="legend-pct" style="color:var(--cepeda-light)">40,90%</div>
+              <div class="legend-label">Iván Cepeda</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#6B7280"></div>
+              <div class="legend-pct" style="color:#6B7280">6,92%</div>
+              <div class="legend-label">Paloma Valencia</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background:#374151"></div>
+              <div class="legend-pct" style="color:#555">8,44%</div>
+              <div class="legend-label">Otros</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENCUESTA 2V -->
+      <div class="chart-card">
+        <div class="chart-title">Encuesta Segunda Vuelta · AtlasIntel / Semana</div>
+        <div style="margin-bottom:28px">
+          <div class="poll-row">
+            <div class="poll-label" style="font-size:14px;font-weight:500">De la Espriella</div>
+            <div class="poll-track"><div class="poll-fill espriella-fill" style="width:50.3%"></div></div>
+            <div class="poll-pct" style="color:var(--espriella-light)">50,3%</div>
+          </div>
+          <div class="poll-row">
+            <div class="poll-label" style="font-size:14px;font-weight:500">Iván Cepeda</div>
+            <div class="poll-track"><div class="poll-fill cepeda-fill" style="width:42.6%"></div></div>
+            <div class="poll-pct" style="color:var(--cepeda-light)">42,6%</div>
+          </div>
+          <div class="poll-row">
+            <div class="poll-label" style="font-size:14px;font-weight:500;color:var(--text-muted)">Sin decidir</div>
+            <div class="poll-track"><div class="poll-fill" style="width:7.1%;background:#444"></div></div>
+            <div class="poll-pct" style="color:var(--text-muted)">7,1%</div>
+          </div>
+        </div>
+        <div style="background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.2);border-radius:8px;padding:14px 16px;">
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">
+            ⚡ <strong style="color:var(--gold)">AtlasIntel</strong> fue la encuestadora más precisa en la primera vuelta. Diferencia de <strong>7,7 puntos</strong> a favor de De la Espriella. Medición post-primera vuelta, circa 2 junio 2026.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Colombia 2026</div>
+    <p class="footer-text">
+      Análisis comparativo electoral elaborado con información pública verificada. Este documento es de carácter informativo y neutral — no constituye propaganda electoral ni recomendación de voto.
+    </p>
+    <div class="footer-sources">
+      Publicado: Junio 2026 · Segunda Vuelta: 21 Junio 2026
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Animate bars on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('[data-width]').forEach(bar => {
+          setTimeout(() => {
+            bar.style.width = bar.dataset.width + '%';
+          }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-section').forEach(el => observer.observe(el));
+
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bars = entry.target.querySelectorAll('[data-width]');
+        bars.forEach(bar => {
+          setTimeout(() => {
+            bar.style.transition = 'width 1.2s cubic-bezier(0.16,1,0.3,1)';
+            bar.style.width = bar.dataset.width + '%';
+          }, 200);
+        });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.results-section').forEach(el => barObserver.observe(el));
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
