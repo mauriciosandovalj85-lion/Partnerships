@@ -34,7 +34,6 @@
     overflow-x: hidden;
   }
 
-  /* HEADER */
   header {
     position: relative;
     min-height: 100vh;
@@ -148,7 +147,6 @@
   }
   @keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
 
-  /* NAVIGATION */
   nav {
     position: sticky; top: 0; z-index: 100;
     background: rgba(13,13,13,0.92);
@@ -189,7 +187,6 @@
   }
   .nav-links a:hover { color: var(--text); background: var(--bg3); }
 
-  /* SECTIONS */
   section { padding: 100px 20px; }
   .container { max-width: 1100px; margin: 0 auto; }
 
@@ -219,7 +216,6 @@
     line-height: 1.7;
   }
 
-  /* CANDIDATES SPLIT */
   .candidates-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -341,7 +337,6 @@
     line-height: 1.5;
   }
 
-  /* VOTE RESULTS BAR */
   .results-section {
     background: var(--bg2);
     border: 1px solid var(--border);
@@ -412,7 +407,6 @@
 
   .espriella-fill { background: linear-gradient(90deg, var(--espriella), var(--espriella-light)); }
   .cepeda-fill { background: linear-gradient(90deg, var(--cepeda), var(--cepeda-light)); }
-  .other-fill { background: var(--bg); }
 
   .turnout-row {
     display: flex;
@@ -439,7 +433,6 @@
   }
   .turnout-sub { font-size: 12px; color: var(--text-muted); }
 
-  /* CHARTS */
   .charts-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -464,12 +457,6 @@
     margin-bottom: 24px;
   }
 
-  /* Radar / Spider chart — pure CSS simulation */
-  .radar-wrapper {
-    display: flex; gap: 32px; align-items: center;
-  }
-
-  /* Academic chart - horizontal bars */
   .acad-bars { display: flex; flex-direction: column; gap: 16px; }
   .acad-row { display: flex; flex-direction: column; gap: 8px; }
   .acad-label { font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between; }
@@ -477,7 +464,6 @@
   .acad-bar-track { height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
   .acad-bar-fill { height: 100%; border-radius: 3px; }
 
-  /* Hexagon stat */
   .hex-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .hex-stat {
     background: var(--bg3);
@@ -495,10 +481,6 @@
   }
   .hex-desc { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
 
-  /* SVG chart */
-  .svg-chart { width: 100%; }
-
-  /* COMPARATIVE TABLE */
   .compare-table {
     width: 100%;
     border-collapse: collapse;
@@ -545,7 +527,6 @@
   .tag-c { background: rgba(30,92,142,0.2); color: var(--cepeda-light); }
   .tag-n { background: rgba(255,255,255,0.05); color: var(--text-muted); }
 
-  /* INSIGHT CARDS */
   .insights-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -594,18 +575,6 @@
   .verdict-c { color: var(--cepeda-light); }
   .verdict-tie { color: var(--gold); }
 
-  /* POLLS */
-  .poll-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 32px;
-    margin-bottom: 16px;
-  }
-
-  .poll-title { font-size: 14px; font-weight: 500; margin-bottom: 20px; }
-  .poll-source { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-muted); float: right; }
-
   .poll-row {
     display: flex;
     align-items: center;
@@ -617,7 +586,6 @@
   .poll-fill { height: 100%; border-radius: 5px; }
   .poll-pct { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; min-width: 56px; text-align: right; }
 
-  /* FOOTER */
   footer {
     border-top: 1px solid var(--border);
     padding: 48px 20px;
@@ -640,10 +608,8 @@
     letter-spacing: 1px;
   }
 
-  /* DIVIDERS */
   hr { border: none; border-top: 1px solid var(--border); margin: 60px 0; }
 
-  /* RESPONSIVE */
   @media (max-width: 768px) {
     .candidates-grid { grid-template-columns: 1fr; }
     .charts-grid { grid-template-columns: 1fr; }
@@ -653,15 +619,12 @@
     .candidate-card { padding: 32px 24px; }
   }
 
-  /* Animated bar on scroll */
   .bar-fill[data-width] { width: 0%; }
   .bar-fill.animated { transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
 
-  /* Section fade-in */
   .fade-section { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
   .fade-section.visible { opacity: 1; transform: translateY(0); }
 
-  /* Color blocks for donut simulation */
   .donut-wrap { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
   .donut-svg { flex-shrink: 0; }
   .donut-legend { flex: 1; min-width: 200px; }
@@ -674,7 +637,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="flag-stripe"></div>
   <div class="divider-v"></div>
@@ -687,7 +649,6 @@
   <div class="scroll-hint">Explorar</div>
 </header>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">CO·2026</div>
@@ -702,7 +663,6 @@
   </div>
 </nav>
 
-<!-- CANDIDATOS -->
 <section id="candidatos">
   <div class="container">
     <div class="section-label">Las Fórmulas</div>
@@ -710,7 +670,6 @@
     <p class="lead">Dos visiones radicalmente distintas del país se enfrentan el 21 de junio. De la Espriella, el abogado outsider de derecha; Cepeda, el senador progresista de izquierda.</p>
 
     <div class="candidates-grid">
-      <!-- DE LA ESPRIELLA -->
       <div class="candidate-card espriella fade-section" data-initial="D">
         <div class="card-tag">Candidato Presidencial · Derecha</div>
         <div class="candidate-name">Abelardo de la<br>Espriella Otero</div>
@@ -732,7 +691,6 @@
         </div>
       </div>
 
-      <!-- CEPEDA -->
       <div class="candidate-card cepeda fade-section" data-initial="C">
         <div class="card-tag">Candidato Presidencial · Izquierda</div>
         <div class="candidate-name">Iván Cepeda<br>Castro</div>
@@ -757,7 +715,6 @@
   </div>
 </section>
 
-<!-- RESULTADOS -->
 <section id="resultados" style="background: var(--bg2); padding-top: 80px; padding-bottom: 80px;">
   <div class="container">
     <div class="section-label">Primera Vuelta · 31 Mayo 2026</div>
@@ -801,17 +758,6 @@
         <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--text-muted)" data-width="6.92"></div></div>
       </div>
 
-      <div class="vote-bar-wrap">
-        <div class="vote-bar-header">
-          <div class="vote-bar-name"><span class="vote-dot" style="background:#444"></span>Otros candidatos</div>
-          <div>
-            <div class="vote-bar-pct" style="color:#666">8,44%</div>
-            <div class="vote-bar-votes">~2.000.000 votos</div>
-          </div>
-        </div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:#333" data-width="8.44"></div></div>
-      </div>
-
       <div class="turnout-row">
         <div class="turnout-item">
           <div class="turnout-label">Participación</div>
@@ -836,14 +782,12 @@
       </div>
     </div>
 
-    <!-- DONUT - Distribución -->
     <div class="charts-grid fade-section">
       <div class="chart-card">
         <div class="chart-title">Distribución del Voto · Primera Vuelta</div>
         <div class="donut-wrap">
           <svg class="donut-svg" width="160" height="160" viewBox="0 0 160 160">
             <circle cx="80" cy="80" r="60" fill="none" stroke="var(--bg3)" stroke-width="24"/>
-            <!-- Espriella 43.74% → 274.8 / 377 = stroke-dashoffset -->
             <circle cx="80" cy="80" r="60" fill="none" stroke="var(--espriella-light)" stroke-width="24"
               stroke-dasharray="163.9 213.9" stroke-dashoffset="94.2" transform="rotate(-90 80 80)" opacity="0.9"/>
             <circle cx="80" cy="80" r="60" fill="none" stroke="var(--cepeda-light)" stroke-width="24"
@@ -880,7 +824,6 @@
         </div>
       </div>
 
-      <!-- ENCUESTA 2V -->
       <div class="chart-card">
         <div class="chart-title">Encuesta Segunda Vuelta · AtlasIntel / Semana</div>
         <div style="margin-bottom:28px">
@@ -910,21 +853,296 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+<section id="academico">
+  <div class="container">
+    <div class="section-label">Preparación · Formación</div>
+    <h2>Perfil Académico<br>Comparado</h2>
+    <p class="lead">Dos trayectorias formativas muy diferentes: el jurista empresarial vs. el filósofo humanista. Ambas con posgrados internacionales, pero con énfasis radicalmente opuestos.</p>
+
+    <div class="charts-grid fade-section">
+      <div class="chart-card">
+        <div class="chart-title">Nivel de Formación Académica</div>
+        <div class="acad-bars">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--espriella-light);margin-bottom:8px">DE LA ESPRIELLA</div>
+          <div class="acad-row">
+            <div class="acad-label">Pregrado (Derecho) <span>U. Sergio Arboleda</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:100%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Especialización Penal <span>U. Externado</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:85%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Especialización Admin. <span>U. del Rosario</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:85%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Maestría Derecho <span>Sergio Arboleda / Nebrija</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:70%"></div></div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--cepeda-light);margin-top:20px;margin-bottom:8px">IVÁN CEPEDA</div>
+          <div class="acad-row">
+            <div class="acad-label">Pregrado (Filosofía) <span>U. Ohrid, Bulgaria</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill cepeda-fill" style="width:100%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Maestría D.I. Humanitario <span>U. Católica de Lyon</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill cepeda-fill" style="width:75%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Perfil Académico · Fórmulas Vicepresidenciales</div>
+        <div class="acad-bars">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--espriella-light);margin-bottom:8px">JOSÉ MANUEL RESTREPO</div>
+          <div class="acad-row">
+            <div class="acad-label">Economía + Finanzas <span>U. del Rosario</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:100%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Maestría Economía <span>London School of Economics</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:90%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Doctorado Dirección <span>Universidad de Bath, UK</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill espriella-fill" style="width:95%"></div></div>
+          </div>
+
+          <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--cepeda-light);margin-top:20px;margin-bottom:8px">AÍDA QUILCUÉ</div>
+          <div class="acad-row">
+            <div class="acad-label">Liderazgo indígena <span>CRIC · ONIC · ONU</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill cepeda-fill" style="width:95%"></div></div>
+          </div>
+          <div class="acad-row">
+            <div class="acad-label">Asesoría UNESCO <span>Paz y derechos humanos</span></div>
+            <div class="acad-bar-track"><div class="acad-bar-fill cepeda-fill" style="width:80%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gestion" style="background: var(--bg2); padding-top: 80px; padding-bottom: 80px;">
+  <div class="container">
+    <div class="section-label">Capacidad · Experiencia</div>
+    <h2>Experiencia de Gestión<br>y Gobierno</h2>
+    <p class="lead">El contraste más marcado: un outsider con gestión privada vs. un legislador con dos décadas en el poder público.</p>
+
+    <div class="charts-grid fade-section">
+      <div class="chart-card">
+        <div class="chart-title">Experiencia Pública vs. Privada · De la Espriella</div>
+        <div class="hex-stats">
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--espriella-light)">+22</div>
+            <div class="hex-desc">Años ejerciendo como abogado penalista</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--espriella-light)">+5K</div>
+            <div class="hex-desc">Procesos jurídicos gestionados</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--espriella-light)">0</div>
+            <div class="hex-desc">Cargos de elección popular previos</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--espriella-light)">1ª</div>
+            <div class="hex-desc">Candidatura presidencial</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-title">Experiencia Pública vs. Privada · Iván Cepeda</div>
+        <div class="hex-stats">
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--cepeda-light)">16</div>
+            <div class="hex-desc">Años en el Congreso (Cámara + Senado)</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--cepeda-light)">3</div>
+            <div class="hex-desc">Períodos legislativos consecutivos</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--cepeda-light)">7</div>
+            <div class="hex-desc">Años docencia universitaria (filosofía)</div>
+          </div>
+          <div class="hex-stat">
+            <div class="hex-num" style="color:var(--cepeda-light)">2</div>
+            <div class="hex-desc">Premios internacionales de DDHH</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-card fade-section">
+      <div class="chart-title">Insight Clave · La fórmula vicepresidencial como complemento estratégico</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+        <div>
+          <div style="color:var(--espriella-light);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;margin-bottom:16px">RESTREPO — VENTAJA ESTRUCTURAL</div>
+          <ul class="info-list" style="gap:12px">
+            <li>Ex-ministro de <strong>Hacienda</strong> (2021–2022) — navegó el estallido social</li>
+            <li>Ex-ministro de <strong>Comercio, Industria y Turismo</strong> (2018–2021) — piloteó la pandemia</li>
+            <li>Rector de Univ. del Rosario y EIA — gestión institucional de gran escala</li>
+            <li>Maestría LSE + PhD Bath — perfil técnico-económico internacional</li>
+          </ul>
+        </div>
+        <div>
+          <div style="color:var(--cepeda-light);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;margin-bottom:16px">QUILCUÉ — REPRESENTACIÓN SIMBÓLICA</div>
+          <ul class="info-list" style="gap:12px">
+            <li>Primera mujer indígena candidata a la Vicepresidencia</li>
+            <li>Consejera Mayor CRIC (2003–2009) — primera mujer en ese cargo</li>
+            <li>Representación en ONU, ONIC, UNESCO — legitimidad internacional</li>
+            <li>Senadora (2022–2026) — experiencia legislativa reciente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="comparativa">
+  <div class="container">
+    <div class="section-label">Lado a Lado</div>
+    <h2>Tabla Comparativa<br>de las Fórmulas</h2>
+    <p class="lead">Un vistazo estructurado a los elementos más relevantes para la toma de decisión.</p>
+
+    <div class="fade-section" style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:40px">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th class="espriella-col">De la Espriella / Restrepo</th>
+            <th class="cepeda-col">Cepeda / Quilcué</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Espectro Ideológico</td>
+            <td><span class="tag tag-e">Derecha · Centro-derecha</span></td>
+            <td><span class="tag tag-c">Izquierda · Progresismo</span></td>
+          </tr>
+          <tr>
+            <td>Partido / Movimiento</td>
+            <td>Defensores de la Patria</td>
+            <td>Pacto Histórico</td>
+          </tr>
+          <tr>
+            <td>Edad del Candidato</td>
+            <td>47 años</td>
+            <td>63 años</td>
+          </tr>
+          <tr>
+            <td>Experiencia Legislativa</td>
+            <td>Ninguna</td>
+            <td>16 años (Cámara + Senado)</td>
+          </tr>
+          <tr>
+            <td>Votos 1ª Vuelta</td>
+            <td><strong>10.361.499</strong> (43,74%)</td>
+            <td><strong>9.688.245</strong> (40,90%)</td>
+          </tr>
+          <tr>
+            <td>Encuesta 2ª vuelta (AtlasIntel)</td>
+            <td><span class="tag tag-e">50,3%</span></td>
+            <td><span class="tag tag-c">42,6%</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="insights" style="background: var(--bg2); padding-top: 80px; padding-bottom: 80px;">
+  <div class="container">
+    <div class="section-label">Análisis Profundo</div>
+    <h2>Insights Clave</h2>
+    <p class="lead">Las conclusiones más relevantes al analizar ambas candidaturas desde la gestión, la academia y el liderazgo político.</p>
+
+    <div class="insights-grid fade-section">
+      <div class="insight-card">
+        <span class="insight-icon">🎓</span>
+        <div class="insight-headline">Ventaja Académica: Fórmula De la Espriella</div>
+        <div class="insight-body">Restrepo tiene un PhD en Bath y MSc en LSE — dos de las instituciones más exigentes del mundo. La combinación Espriella+Restrepo tiene mayor densidad de titulaciones formales verificables.</div>
+        <div class="insight-verdict verdict-e">→ Ventaja: De la Espriella / Restrepo</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">🏛️</span>
+        <div class="insight-headline">Experiencia Legislativa: Cepeda sin rival</div>
+        <div class="insight-body">Con 16 años en el Congreso, Iván Cepeda conoce los mecanismos del poder legislativo mejor que ningún candidato en décadas. De la Espriella nunca ha ocupado un cargo de elección popular.</div>
+        <div class="insight-verdict verdict-c">→ Ventaja: Iván Cepeda</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">📊</span>
+        <div class="insight-headline">Gestión Ejecutiva: Restrepo como comodín</div>
+        <div class="insight-body">Restrepo administró dos carteras claves durante crisis (pandemia + estallido). Quilcué, aunque emblemática, no tiene experiencia ejecutiva en gobierno nacional.</div>
+        <div class="insight-verdict verdict-e">→ Ventaja: De la Espriella (vía Restrepo)</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">✊</span>
+        <div class="insight-headline">Legitimidad Territorial: Cepeda arraigado</div>
+        <div class="insight-body">Cepeda ganó en regiones como Chocó, Cauca y Nariño con más del 50%. Su trabajo con MOVICE le da legitimidad que De la Espriella no puede replicar.</div>
+        <div class="insight-verdict verdict-c">→ Ventaja: Iván Cepeda</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">🧭</span>
+        <div class="insight-headline">Riesgo del Outsider vs. Peso del Statu Quo</div>
+        <div class="insight-body">De la Espriella es el primer candidato sin cargo previo. Gobernar requiere coaliciones y conocimiento del aparato estatal. Cepeda carga con asociación al impopular gobierno Petro.</div>
+        <div class="insight-verdict verdict-tie">→ Tensión sin ganador claro</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">🌐</span>
+        <div class="insight-headline">Perfil Internacional: Historias opuestas</div>
+        <div class="insight-body">Cepeda tiene décadas de reconocimiento en DDHH internacionales. De la Espriella es nuevo en arena global pero con respaldo de Trump.</div>
+        <div class="insight-verdict verdict-tie">→ Depende del enfoque geopolítico</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">⚡</span>
+        <div class="insight-headline">Momentum Electoral: De la Espriella</div>
+        <div class="insight-body">Ganó la primera vuelta con 10+ millones de votos. AtlasIntel lo ubica en 50,3% vs. 42,6% para Cepeda. Los apoyos consolidan una coalición amplia de derecha.</div>
+        <div class="insight-verdict verdict-e">→ Ventaja: De la Espriella</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">🩺</span>
+        <div class="insight-headline">Factor Edad: Energía vs. Experiencia</div>
+        <div class="insight-body">Cepeda tiene 63 años y superó cáncer en fase temprana. De la Espriella tiene 47 años, es más joven y con mayor energía mediática. Factor perceptual importante.</div>
+        <div class="insight-verdict verdict-e">→ Percepción favorable: De la Espriella</div>
+      </div>
+
+      <div class="insight-card">
+        <span class="insight-icon">🗺️</span>
+        <div class="insight-headline">Inclusión e Interculturalidad: Quilcué histórica</div>
+        <div class="insight-body">Aída Quilcué es la primera mujer indígena candidata a la Vicepresidencia. Representa una ruptura simbólica en un país donde pueblos originarios fueron excluidos del poder ejecutivo.</div>
+        <div class="insight-verdict verdict-c">→ Hito histórico: Fórmula Cepeda/Quilcué</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">Colombia 2026</div>
     <p class="footer-text">
-      Análisis comparativo electoral elaborado con información pública verificada. Este documento es de carácter informativo y neutral — no constituye propaganda electoral ni recomendación de voto.
+      Análisis comparativo electoral elaborado con información pública verificada de la Registraduría Nacional, medios de comunicación, y plataformas de seguimiento político. Este documento es de carácter informativo y neutral — no constituye propaganda electoral ni recomendación de voto.
     </p>
     <div class="footer-sources">
+      Fuentes: Registraduría Nacional · Semana · El Tiempo · El Espectador · La Silla Vacía · AtlasIntel · Wikipedia ES · CNN Español · Infobea Colombia · LaFM
+    </div>
+    <div style="margin-top:24px;font-family:'DM Mono',monospace;font-size:10px;color:#666">
       Publicado: Junio 2026 · Segunda Vuelta: 21 Junio 2026
     </div>
   </div>
 </footer>
 
 <script>
-  // Animate bars on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -957,7 +1175,6 @@
 
   document.querySelectorAll('.results-section').forEach(el => barObserver.observe(el));
 
-  // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
