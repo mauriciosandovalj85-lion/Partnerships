@@ -1,0 +1,194 @@
+<style>
+.mc { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.85rem 1rem; }
+.ml { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 2px; }
+.mv { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+.ms { font-size: 11px; color: var(--color-text-tertiary); margin: 2px 0 0; }
+.st { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); margin: 1.4rem 0 0.6rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.ic { border-left: 3px solid; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.55rem 0.85rem; margin-bottom: 0.45rem; font-size: 12.5px; line-height: 1.5; }
+.tab-btn { padding: 6px 14px; font-size: 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); cursor: pointer; background: transparent; color: var(--color-text-secondary); }
+.tab-btn.active { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; }
+</style>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garmin Advanced Dashboard - Bogotá 4 Junio 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --color-background-primary: #ffffff;
+            --color-background-secondary: #f3f4f6;
+            --color-text-primary: #1f2937;
+            --color-text-secondary: #6b7280;
+            --color-text-tertiary: #9ca3af;
+            --color-border-secondary: #e5e7eb;
+            --border-radius-md: 0.375rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-background-primary: #1f2937;
+                --color-background-secondary: #374151;
+                --color-text-primary: #f3f4f6;
+                --color-text-secondary: #d1d5db;
+                --color-text-tertiary: #9ca3af;
+                --color-border-secondary: #4b5563;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--color-background-primary);
+            color: var(--color-text-primary);
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-primary);
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Avanzado de Carrera</h1>
+    <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">Bogotá — 4 de junio de 2026</p>
+
+    <h2 class="sr-only">Dashboard avanzado de carrera — Bogotá 4 junio 2026, con métricas de potencia y biomecánica por lap</h2>
+
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 0.5rem;">
+      <div class="mc"><p class="ml">Distancia</p><p class="mv">8.50 km</p></div>
+      <div class="mc"><p class="ml">Tiempo activo</p><p class="mv">40:18</p></div>
+      <div class="mc"><p class="ml">Pace promedio</p><p class="mv">4:44</p><p class="ms">min/km</p></div>
+      <div class="mc"><p class="ml">Pace ajustado (GAP)</p><p class="mv">4:48</p><p class="ms">por pendiente</p></div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-bottom: 0.5rem;">
+      <div class="mc"><p class="ml">Potencia promedio</p><p class="mv">360 W</p><p class="ms">4.86 W/kg</p></div>
+      <div class="mc"><p class="ml">FC promedio</p><p class="mv">159 bpm</p><p class="ms">Máx: 183 bpm</p></div>
+      <div class="mc"><p class="ml">Cadencia promedio</p><p class="mv">180 spm</p><p class="ms">Máx: 218 spm</p></div>
+      <div class="mc"><p class="ml">Calorías</p><p class="mv">582 kcal</p></div>
+    </div>
+    <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 9px;">
+      <div class="mc"><p class="ml">Longitud zancada</p><p class="mv">1.13 m</p></div>
+      <div class="mc"><p class="ml">Contacto suelo</p><p class="mv">233 ms</p></div>
+      <div class="mc"><p class="ml">Oscilación vertical</p><p class="mv">8.2 cm</p></div>
+      <div class="mc"><p class="ml">Ratio vertical</p><p class="mv">7.3%</p></div>
+    </div>
+
+    <p class="st">Métricas por lap</p>
+    <div style="display:flex; gap:8px; margin-bottom: 10px;" id="tabs">
+      <button class="tab-btn active" onclick="showChart('pace')">Pace & FC</button>
+      <button class="tab-btn" onclick="showChart('power')">Potencia</button>
+      <button class="tab-btn" onclick="showChart('bio')">Biomecánica</button>
+    </div>
+
+    <div id="chart-pace" style="position:relative; width:100%; height:220px;">
+      <canvas id="paceChart" role="img" aria-label="Pace y FC por lap. Pace más rápido km 7-8 (4:32). FC sube de 143 a 172 bpm.">Pace por lap: 4:58, 4:53, 4:29, 4:50, 4:40, 4:43, 4:32, 4:32, 5:31*, 5:06*. FC: 143,146,161,164,163,165,159,165,172,162.</canvas>
+    </div>
+    <div id="chart-power" style="display:none; position:relative; width:100%; height:220px;">
+      <canvas id="powerChart" role="img" aria-label="Potencia promedio y máxima por lap. Pico máximo en lap 7 con 556W.">Potencia avg: 376,349,389,357,354,368,351,353,321,345. Potencia max: 497,418,518,516,496,502,556,517,444,362.</canvas>
+    </div>
+    <div id="chart-bio" style="display:none; position:relative; width:100%; height:220px;">
+      <canvas id="bioChart" role="img" aria-label="Biomecánica: longitud de zancada y tiempo de contacto con el suelo por lap.">Longitud: 1.11,1.13,1.19,1.12,1.13,1.13,1.15,1.14,1.09,1.09. Contacto: 236,237,227,236,235,233,226,228,246,240.</canvas>
+    </div>
+
+    <p class="st">Insights avanzados</p>
+
+    <div class="ic" style="border-color:#6366f1; background:rgba(99,102,241,0.07); color: var(--color-text-primary);">
+      <strong style="color:#4f46e5;">Potencia consistente — buena señal de eficiencia:</strong> Tu potencia se mantuvo en 349–389 W durante los km 1–8, con muy poca variación (~11%). Esto indica control del esfuerzo y buena economía de carrera. El lap 7 marcó tu pico de 556 W — probablemente una aceleración o subida corta.
+    </div>
+    <div class="ic" style="border-color:#ef4444; background:rgba(239,68,68,0.07); color: var(--color-text-primary);">
+      <strong style="color:#dc2626;">FC sube 29 bpm con pace similar — cardiac drift severo:</strong> Del lap 1 al lap 9, tu FC subió de 143 a 172 bpm mientras el pace se mantuvo ~4:30–5:00 min/km. Una subida de FC sin aumento de pace es señal clara de fatiga acumulada, temperatura o deshidratación.
+    </div>
+    <div class="ic" style="border-color:#f59e0b; background:rgba(245,158,11,0.07); color: var(--color-text-primary);">
+      <strong style="color:#b45309;">Contacto con el suelo: zona límite pero aceptable:</strong> Tu GCT promedio es 233 ms. El rango de élite es 150–200 ms, pero para corredores recreativos, 220–250 ms es normal. El lap 9 sube a 246 ms — señal de fatiga en la pisada al final. Trabajo de strides y fuerza de glúteos puede bajar este número.
+    </div>
+    <div class="ic" style="border-color:#22c55e; background:rgba(34,197,94,0.07); color: var(--color-text-primary);">
+      <strong style="color:#15803d;">Ratio vertical 7.3% — buena eficiencia:</strong> El ratio vertical (oscilación vertical / longitud de zancada) mide cuánto "botas" para cada metro avanzado. Tu 7.3% está dentro del rango óptimo (&lt;8%). Esto confirma que tu técnica de propulsión horizontal es sólida.
+    </div>
+    <div class="ic" style="border-color:#0ea5e9; background:rgba(14,165,233,0.07); color: var(--color-text-primary);">
+      <strong style="color:#0369a1;">Lap 3 fue tu mejor kilómetro:</strong> 4:29 de pace con 389 W y 227 ms de GCT — el conjunto más eficiente de toda la carrera. Coincide con FC en 161 bpm, antes de que el drift cardíaco pegara fuerte. Replicar esa zona de esfuerzo en el largo de tu carrera debería ser tu objetivo de entrenamiento.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script>
+    const laps = ['Km 1','Km 2','Km 3','Km 4','Km 5','Km 6','Km 7','Km 8','Km 9*','Km 10*'];
+    const paceArr = [4*60+58, 4*60+53, 4*60+29, 4*60+50, 4*60+40, 4*60+43, 4*60+32, 4*60+32, 5*60+31, 5*60+6];
+    const hrArr = [143,146,161,164,163,165,159,165,172,162];
+    const powerAvg = [376,349,389,357,354,368,351,353,321,345];
+    const powerMax = [497,418,518,516,496,502,556,517,444,362];
+    const strideLen = [1.11,1.13,1.19,1.12,1.13,1.13,1.15,1.14,1.09,1.09];
+    const gct = [236,237,227,236,235,233,226,228,246,240];
+
+    function makeChart(id, datasets, yLeft, yRight) {
+      const scales = {
+        x: { ticks: { font: { size: 10 }, autoSkip: false }, grid: { display: false } },
+        y: { position: 'left', ...yLeft, ticks: { ...yLeft.ticks, font: { size: 10 } }, grid: { color: 'rgba(128,128,128,0.1)' } }
+      };
+      if (yRight) scales.y1 = { position: 'right', ...yRight, ticks: { ...yRight.ticks, font: { size: 10 } }, grid: { display: false } };
+      return new Chart(document.getElementById(id), {
+        type: 'bar',
+        data: { labels: laps, datasets },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales }
+      });
+    }
+
+    makeChart('paceChart',
+      [
+        { label: 'Pace', data: paceArr, backgroundColor: 'rgba(99,102,241,0.65)', yAxisID: 'y', order: 2, borderRadius: 3 },
+        { label: 'FC', data: hrArr, type: 'line', borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', tension: 0.3, yAxisID: 'y1', order: 1, pointRadius: 3, pointBackgroundColor: '#ef4444' }
+      ],
+      { reverse: true, min: 260, max: 345, ticks: { callback: v => { const m=Math.floor(v/60); const s=v%60; return m+':'+String(s).padStart(2,'0'); }, color: '#6366f1' }, title: { display: true, text: 'Pace (min/km)', color: '#6366f1', font:{size:10} } },
+      { min: 130, max: 185, ticks: { callback: v => v+' bpm', color: '#ef4444' }, title: { display: true, text: 'FC (bpm)', color: '#ef4444', font:{size:10} } }
+    );
+
+    makeChart('powerChart',
+      [
+        { label: 'Potencia avg', data: powerAvg, backgroundColor: 'rgba(16,185,129,0.7)', yAxisID: 'y', order: 2, borderRadius: 3 },
+        { label: 'Potencia máx', data: powerMax, type: 'line', borderColor: '#f59e0b', borderDash: [4,3], backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.3, yAxisID: 'y', order: 1, pointRadius: 3, pointBackgroundColor: '#f59e0b' }
+      ],
+      { min: 280, max: 600, ticks: { callback: v => v+'W', color: 'rgba(16,185,129,0.9)' }, title: { display: true, text: 'Potencia (W)', color: 'rgba(16,185,129,0.9)', font:{size:10} } },
+      null
+    );
+
+    makeChart('bioChart',
+      [
+        { label: 'Long. zancada', data: strideLen, backgroundColor: 'rgba(139,92,246,0.65)', yAxisID: 'y', order: 2, borderRadius: 3 },
+        { label: 'GCT', data: gct, type: 'line', borderColor: '#0ea5e9', backgroundColor: 'rgba(14,165,233,0.1)', tension: 0.3, yAxisID: 'y1', order: 1, pointRadius: 3, pointBackgroundColor: '#0ea5e9' }
+      ],
+      { min: 1.0, max: 1.3, ticks: { callback: v => v.toFixed(2)+'m', color: '#7c3aed' }, title: { display: true, text: 'Long. zancada (m)', color: '#7c3aed', font:{size:10} } },
+      { min: 215, max: 255, ticks: { callback: v => v+'ms', color: '#0ea5e9' }, title: { display: true, text: 'Contacto suelo (ms)', color: '#0ea5e9', font:{size:10} } }
+    );
+
+    function showChart(type) {
+      ['pace','power','bio'].forEach(t => {
+        document.getElementById('chart-'+t).style.display = t === type ? 'block' : 'none';
+      });
+      document.querySelectorAll('.tab-btn').forEach((b,i) => {
+        b.classList.toggle('active', ['pace','power','bio'][i] === type);
+      });
+    }
+    </script>
+</body>
+</html>
