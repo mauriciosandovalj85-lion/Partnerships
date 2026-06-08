@@ -1,44 +1,165 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garmin Fatigue Analysis</title>
-<style>
-*{box-sizing:border-box;}
-body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;padding:20px;}
-.container{max-width:1000px;margin:0 auto;background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
-.mc{background:#f8f8f8;border-radius:6px;padding:.8rem 1rem;border:1px solid #e0e0e0;}
-.ml{font-size:10.5px;color:#666;margin:0 0 2px;}
-.mv{font-size:18px;font-weight:500;color:#333;margin:0;}
-.ms{font-size:10px;color:#999;margin:2px 0 0;}
-.st{font-size:11px;font-weight:600;color:#555;margin:1.4rem 0 .6rem;text-transform:uppercase;letter-spacing:.07em;}
-.ic{border-left:3px solid;border-radius:0 6px 6px 0;padding:.6rem .85rem;margin-bottom:.45rem;font-size:12.5px;line-height:1.55;}
-.ic strong{display:block;margin-bottom:2px;}
-.tab{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
-.tb{padding:5px 13px;font-size:11.5px;border:0.5px solid #ddd;border-radius:4px;cursor:pointer;background:transparent;color:#666;}
-.tb.on{background:#f0f0f0;color:#333;font-weight:500;}
-.cmp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #eee;font-size:12px;}
-.cmp-row:last-child{border-bottom:none;}
-.cmp-label{color:#666;}
-.cmp-v1{text-align:center;font-weight:500;}
-.cmp-v2{text-align:center;font-weight:500;}
-.delta-good{color:#16a34a;font-weight:600;}
-.delta-warn{color:#b45309;font-weight:600;}
-.delta-bad{color:#dc2626;font-weight:600;}
-.delta-neu{color:#999;}
-.alert{background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.6rem;}
-.alert strong{color:#dc2626;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garmin Fatigue Deep Analysis</title>
+    <style>
+        :root {
+            --color-background-secondary: #f3f4f6;
+            --border-radius-md: 8px;
+            --color-text-secondary: #6b7280;
+            --color-text-primary: #1f2937;
+            --color-text-tertiary: #9ca3af;
+            --color-border-secondary: #e5e7eb;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: white;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .mc {
+            background: var(--color-background-secondary);
+            border-radius: var(--border-radius-md);
+            padding: .8rem 1rem;
+        }
+        
+        .ml {
+            font-size: 10.5px;
+            color: var(--color-text-secondary);
+            margin: 0 0 2px;
+        }
+        
+        .mv {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin: 0;
+        }
+        
+        .ms {
+            font-size: 10px;
+            color: var(--color-text-tertiary);
+            margin: 2px 0 0;
+        }
+        
+        .st {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin: 1.4rem 0 .6rem;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+        
+        .ic {
+            border-left: 3px solid;
+            border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+            padding: .6rem .85rem;
+            margin-bottom: .45rem;
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+        
+        .ic strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .tab {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tb {
+            padding: 5px 13px;
+            font-size: 11.5px;
+            border: 0.5px solid var(--color-border-secondary);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            background: transparent;
+            color: var(--color-text-secondary);
+        }
+        
+        .tb.on {
+            background: var(--color-background-secondary);
+            color: var(--color-text-primary);
+            font-weight: 500;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10.5px;
+            font-weight: 500;
+        }
+        
+        .cmp-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            align-items: center;
+            padding: 7px 0;
+            border-bottom: 0.5px solid var(--color-border-secondary);
+            font-size: 12px;
+        }
+        
+        .cmp-row:last-child {
+            border-bottom: none;
+        }
+        
+        .cmp-label {
+            color: var(--color-text-secondary);
+        }
+        
+        .cmp-v1 {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .cmp-v2 {
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .delta-good {
+            color: #16a34a;
+            font-weight: 600;
+        }
+        
+        .delta-warn {
+            color: #b45309;
+            font-weight: 600;
+        }
+        
+        .delta-bad {
+            color: #dc2626;
+            font-weight: 600;
+        }
+        
+        .delta-neu {
+            color: var(--color-text-secondary);
+        }
+    </style>
 </head>
 <body>
-<div class="container">
 
 <!-- HEADER ALERT -->
-<div class="alert">
+<div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.6rem;">
   <span style="font-size:18px;line-height:1;">⚠️</span>
-  <div>
-    <strong>Señales claras de sobrecarga / fatiga acumulada</strong><br>
+  <div style="font-size:12.5px;line-height:1.55;">
+    <strong style="color:#dc2626;">Señales claras de sobrecarga / fatiga acumulada</strong><br>
     6 de 7 indicadores biomecánicos y fisiológicos retrocedieron en esta actividad. La eficiencia de carrera cayó <strong>22%</strong> en 4 días. Tu percepción de que "cuesta mucho" está respaldada por los datos.
   </div>
 </div>
@@ -82,8 +203,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#33
 
 <!-- COMPARATIVA TABLA -->
 <p class="st">Comparativa vs actividad anterior (04 jun)</p>
-<div style="background:#f8f8f8;border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;border:1px solid #e0e0e0;">
-  <div class="cmp-row" style="font-weight:600;font-size:11px;color:#666;border-bottom:1px solid #ddd;">
+<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;margin-bottom:1rem;">
+  <div class="cmp-row" style="font-weight:600;font-size:11px;color:var(--color-text-secondary);border-bottom:1px solid var(--color-border-secondary);">
     <div>Métrica</div><div style="text-align:center;">Act 1 · 04 jun</div><div style="text-align:center;">Act 2 · 08 jun</div>
   </div>
   <div class="cmp-row"><div class="cmp-label">Pace</div><div class="cmp-v1">4:44 min/km</div><div class="cmp-v2">5:28 min/km <span class="delta-bad">↓ -15%</span></div></div>
@@ -225,6 +346,5 @@ function sc(t){
 }
 </script>
 
-</div>
 </body>
 </html>
