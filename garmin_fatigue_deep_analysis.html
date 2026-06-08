@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garmin Fatigue Analysis</title>
+<style>
+*{box-sizing:border-box;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f5f5f5;color:#333;padding:20px;}
+.container{max-width:1000px;margin:0 auto;background:white;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.mc{background:#f8f8f8;border-radius:6px;padding:.8rem 1rem;border:1px solid #e0e0e0;}
+.ml{font-size:10.5px;color:#666;margin:0 0 2px;}
+.mv{font-size:18px;font-weight:500;color:#333;margin:0;}
+.ms{font-size:10px;color:#999;margin:2px 0 0;}
+.st{font-size:11px;font-weight:600;color:#555;margin:1.4rem 0 .6rem;text-transform:uppercase;letter-spacing:.07em;}
+.ic{border-left:3px solid;border-radius:0 6px 6px 0;padding:.6rem .85rem;margin-bottom:.45rem;font-size:12.5px;line-height:1.55;}
+.ic strong{display:block;margin-bottom:2px;}
+.tab{display:flex;gap:7px;margin-bottom:10px;flex-wrap:wrap;}
+.tb{padding:5px 13px;font-size:11.5px;border:0.5px solid #ddd;border-radius:4px;cursor:pointer;background:transparent;color:#666;}
+.tb.on{background:#f0f0f0;color:#333;font-weight:500;}
+.cmp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid #eee;font-size:12px;}
+.cmp-row:last-child{border-bottom:none;}
+.cmp-label{color:#666;}
+.cmp-v1{text-align:center;font-weight:500;}
+.cmp-v2{text-align:center;font-weight:500;}
+.delta-good{color:#16a34a;font-weight:600;}
+.delta-warn{color:#b45309;font-weight:600;}
+.delta-bad{color:#dc2626;font-weight:600;}
+.delta-neu{color:#999;}
+.alert{background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.6rem;}
+.alert strong{color:#dc2626;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER ALERT -->
+<div class="alert">
+  <span style="font-size:18px;line-height:1;">⚠️</span>
+  <div>
+    <strong>Señales claras de sobrecarga / fatiga acumulada</strong><br>
+    6 de 7 indicadores biomecánicos y fisiológicos retrocedieron en esta actividad. La eficiencia de carrera cayó <strong>22%</strong> en 4 días. Tu percepción de que "cuesta mucho" está respaldada por los datos.
+  </div>
+</div>
+
+<!-- KPIs NUEVOS -->
+<p class="st">Actividad 2 — 08 jun 2026 · 11.12 km · 1:00:46</p>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:.5rem;">
+  <div class="mc"><p class="ml">Pace promedio</p><p class="mv">5:28</p><p class="ms">GAP: 5:24 min/km</p></div>
+  <div class="mc"><p class="ml">Potencia promedio</p><p class="mv">324 W</p><p class="ms">4.38 W/kg</p></div>
+  <div class="mc"><p class="ml">FC promedio</p><p class="mv">152 bpm</p><p class="ms">Máx: 170 bpm</p></div>
+  <div class="mc"><p class="ml">Cadencia</p><p class="mv">174 spm</p><p class="ms">GCT: 252 ms</p></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;">
+  <div class="mc"><p class="ml">Long. zancada</p><p class="mv">1.04 m</p></div>
+  <div class="mc"><p class="ml">Ratio vertical</p><p class="mv">8.1%</p><p class="ms" style="color:#b45309;">↑ límite aceptable</p></div>
+  <div class="mc"><p class="ml">Desnivel +</p><p class="mv">169 m</p><p class="ms">vs 46 m anterior</p></div>
+  <div class="mc"><p class="ml">Calorías</p><p class="mv">817 kcal</p></div>
+</div>
+
+<!-- TABS CHARTS -->
+<p class="st">Análisis por lap — Actividad 2</p>
+<div class="tab" id="tabs">
+  <button class="tb on" onclick="sc('perf')">Pace & Potencia</button>
+  <button class="tb" onclick="sc('fc')">FC & Fatiga</button>
+  <button class="tb" onclick="sc('bio')">Biomecánica</button>
+  <button class="tb" onclick="sc('comp')">Comparativa</button>
+</div>
+
+<div id="c-perf" style="position:relative;width:100%;height:210px;">
+  <canvas id="perfC" role="img" aria-label="Pace y potencia por lap. Pace estable ~5:28, potencia cae de 337W a 294W en último lap."></canvas>
+</div>
+<div id="c-fc" style="display:none;position:relative;width:100%;height:210px;">
+  <canvas id="fcC" role="img" aria-label="FC promedio y máxima por lap. FC sube 18 bpm del km 1 al km 11."></canvas>
+</div>
+<div id="c-bio" style="display:none;position:relative;width:100%;height:210px;">
+  <canvas id="bioC" role="img" aria-label="Zancada y GCT por lap. Zancada cae de 1.05 a 0.95m. GCT sube de 250 a 259ms."></canvas>
+</div>
+<div id="c-comp" style="display:none;position:relative;width:100%;height:210px;">
+  <canvas id="compC" role="img" aria-label="Comparativa de potencia W/kg entre actividad 1 y actividad 2. Act1 promedio 4.86, Act2 promedio 4.38."></canvas>
+</div>
+
+<!-- COMPARATIVA TABLA -->
+<p class="st">Comparativa vs actividad anterior (04 jun)</p>
+<div style="background:#f8f8f8;border-radius:6px;padding:.75rem 1rem;margin-bottom:1rem;border:1px solid #e0e0e0;">
+  <div class="cmp-row" style="font-weight:600;font-size:11px;color:#666;border-bottom:1px solid #ddd;">
+    <div>Métrica</div><div style="text-align:center;">Act 1 · 04 jun</div><div style="text-align:center;">Act 2 · 08 jun</div>
+  </div>
+  <div class="cmp-row"><div class="cmp-label">Pace</div><div class="cmp-v1">4:44 min/km</div><div class="cmp-v2">5:28 min/km <span class="delta-bad">↓ -15%</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Potencia avg</div><div class="cmp-v1">360 W · 4.86 W/kg</div><div class="cmp-v2">324 W · 4.38 W/kg <span class="delta-bad">↓ -10%</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">FC promedio</div><div class="cmp-v1">159 bpm</div><div class="cmp-v2">152 bpm <span class="delta-good">↓ -7</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">FC máxima</div><div class="cmp-v1">183 bpm</div><div class="cmp-v2">170 bpm <span class="delta-warn">↓ -13</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">GCT</div><div class="cmp-v1">233 ms</div><div class="cmp-v2">252 ms <span class="delta-bad">↑ +19 ms</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Long. zancada</div><div class="cmp-v1">1.13 m</div><div class="cmp-v2">1.04 m <span class="delta-bad">↓ -8%</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Ratio vertical</div><div class="cmp-v1">7.3%</div><div class="cmp-v2">8.1% <span class="delta-bad">↑ peor</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Cadencia</div><div class="cmp-v1">180 spm</div><div class="cmp-v2">174 spm <span class="delta-bad">↓ -6</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Eficiencia (W/pace)</div><div class="cmp-v1">76.1</div><div class="cmp-v2">59.3 <span class="delta-bad">↓ -22%</span></div></div>
+  <div class="cmp-row"><div class="cmp-label">Desnivel acumulado</div><div class="cmp-v1">+46 m</div><div class="cmp-v2">+169 m <span class="delta-neu">+267%</span></div></div>
+</div>
+
+<!-- INSIGHTS -->
+<p class="st">Diagnóstico de fatiga & insights de mejora</p>
+
+<div class="ic" style="border-color:#dc2626;background:rgba(239,68,68,0.06);">
+  <strong style="color:#dc2626;">🔴 Fatiga neuromuscular confirmada — descanso prioritario</strong>
+  El GCT subió 19 ms, la zancada cayó 8 cm y la cadencia bajó 6 spm respecto a 4 días atrás. Estos tres indicadores juntos son la firma biomecánica de piernas fatigadas. Tu sistema nervioso no está reclutando fibras musculares con la misma eficiencia. No es falta de voluntad, es fisiología pura.
+</div>
+
+<div class="ic" style="border-color:#dc2626;background:rgba(239,68,68,0.06);">
+  <strong style="color:#dc2626;">🔴 FC máxima deprimida (170 vs 183 bpm) — señal de sobreentrenamiento</strong>
+  Una FC máxima más baja de lo normal para el mismo esfuerzo percibido puede indicar que el sistema nervioso autónomo está en modo de "protección". Esto, combinado con el HRV potencialmente bajo (no tienes HRV en los datos, pero es probable), sugiere que el cuerpo está priorizando la conservación sobre el rendimiento.
+</div>
+
+<div class="ic" style="border-color:#f59e0b;background:rgba(245,158,11,0.06);">
+  <strong style="color:#b45309;">🟡 Eficiencia de carrera cayó 22% en 4 días</strong>
+  En la actividad anterior generabas 76.1 unidades de potencia por cada min/km de pace. Hoy: 59.3. Necesitas 22% más esfuerzo para el mismo resultado. Esto es sobreentrenamiento funcional — el cuerpo está en déficit de recuperación.
+</div>
+
+<div class="ic" style="border-color:#f59e0b;background:rgba(245,158,11,0.06);">
+  <strong style="color:#b45309;">🟡 Ratio vertical 8.1% — entrando en zona de riesgo</strong>
+  El ratio vertical ideal es &lt;7.5%. Tu 8.1% significa que estás "saltando" más de lo necesario por cada metro avanzado. En fatiga, los corredores pierden la capacidad de convertir energía vertical en horizontal. También aumenta el impacto por zancada y el riesgo de lesión.
+</div>
+
+<div class="ic" style="border-color:#f59e0b;background:rgba(245,158,11,0.06);">
+  <strong style="color:#b45309;">🟡 Potencia sigue cayendo a lo largo del run (337→294 W)</strong>
+  Una caída de 43 W de potencia entre el km 1 y el km final (18 ms adicionales de GCT incluidos) muestra que las piernas se fueron agotando progresivamente durante el entrenamiento. Con fatiga acumulada previa, esto se amplifica.
+</div>
+
+<div class="ic" style="border-color:#22c55e;background:rgba(34,197,94,0.06);">
+  <strong style="color:#15803d;">🟢 FC promedio más baja con más distancia — lo hiciste bien tácticamente</strong>
+  A pesar de correr 2.6 km más, tu FC promedio fue 7 bpm menor (152 vs 159). Esto indica que sí moderaste el esfuerzo instintivamente, lo cual es correcto cuando el cuerpo no está bien. Escuchaste las señales aunque no lo supieras conscientemente.
+</div>
+
+<div class="ic" style="border-color:#6366f1;background:rgba(99,102,241,0.06);">
+  <strong style="color:#4f46e5;">🔵 Plan de acción recomendado</strong>
+  <span style="display:block;margin-top:4px;">1. <strong>48–72h de descanso activo</strong> (caminar, movilidad, yoga) — sin carrera.<br>
+  2. <strong>Priorizar sueño y nutrición</strong>: sin recuperación fisiológica, el entrenamiento produce regresión, no adaptación.<br>
+  3. <strong>Al volver a correr:</strong> FC máx 148–152 bpm (zona 2), pace ~5:45–6:15 min/km en Bogotá. Usa el monitor cardíaco como gobernador.<br>
+  4. <strong>Considera medir HRV</strong> cada mañana (Garmin Body Battery o app externa). Si está consistentemente bajo, amplía el descanso.<br>
+  5. <strong>No hagas dos sesiones de alta intensidad con menos de 72h entre ellas</strong> a 2.500+ m de altitud — la recuperación en altura es más lenta.</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const laps=['Km1','Km2','Km3','Km4','Km5','Km6','Km7','Km8','Km9','Km10','Km11','Km12*'];
+const paceArr=[5*60+26,5*60+16,5*60+27,5*60+30,5*60+31,5*60+24,5*60+25,5*60+30,5*60+31,5*60+30,5*60+31,6*60+11];
+const powerAvg=[337,333,321,320,329,313,336,311,337,311,319,294];
+const powerMax=[492,434,480,519,469,432,505,517,458,445,456,310];
+const hrAvg=[138,150,147,148,153,153,155,155,159,154,156,156];
+const hrMax=[151,159,163,161,166,166,163,170,168,170,164,157];
+const gct=[250,250,251,252,252,253,251,253,253,254,254,259];
+const stride=[1.05,1.06,1.05,1.03,1.02,1.05,1.05,1.03,1.03,1.04,1.02,0.95];
+const wkg1=[5.08,4.72,5.26,4.82,4.78,4.97,4.74,4.77,4.34,4.66,null,null];
+const wkg2=[4.55,4.50,4.34,4.32,4.45,4.23,4.54,4.20,4.55,4.20,4.31,3.97];
+
+const gOpts=(yl,yr)=>({
+  responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false}},
+  scales:{
+    x:{ticks:{font:{size:9.5},autoSkip:false},grid:{display:false}},
+    y:{position:'left',...yl,ticks:{...yl.ticks,font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'}},
+    ...(yr?{y1:{position:'right',...yr,ticks:{...yr.ticks,font:{size:10}},grid:{display:false}}}:{})
+  }
+});
+
+new Chart(document.getElementById('perfC'),{
+  type:'bar',
+  data:{labels:laps,datasets:[
+    {label:'Pace',data:paceArr,backgroundColor:'rgba(99,102,241,0.6)',yAxisID:'y',order:2,borderRadius:3},
+    {label:'Potencia avg',data:powerAvg,type:'line',borderColor:'#10b981',backgroundColor:'rgba(16,185,129,0.1)',tension:0.3,yAxisID:'y1',order:1,pointRadius:3,pointBackgroundColor:'#10b981'}
+  ]},
+  options:gOpts(
+    {reverse:true,min:315,max:380,ticks:{callback:v=>{const m=Math.floor(v/60);const s=v%60;return m+':'+String(s).padStart(2,'0');},color:'#6366f1'},title:{display:true,text:'Pace',color:'#6366f1',font:{size:10}}},
+    {min:280,max:540,ticks:{callback:v=>v+'W',color:'#10b981'},title:{display:true,text:'Potencia (W)',color:'#10b981',font:{size:10}}}
+  )
+});
+
+new Chart(document.getElementById('fcC'),{
+  type:'bar',
+  data:{labels:laps,datasets:[
+    {label:'FC avg',data:hrAvg,backgroundColor:'rgba(239,68,68,0.55)',yAxisID:'y',order:2,borderRadius:3},
+    {label:'FC max',data:hrMax,type:'line',borderColor:'#b91c1c',borderDash:[4,3],tension:0.3,yAxisID:'y',order:1,pointRadius:3,pointBackgroundColor:'#b91c1c',fill:false}
+  ]},
+  options:gOpts(
+    {min:125,max:180,ticks:{callback:v=>v+' bpm',color:'#ef4444'},title:{display:true,text:'FC (bpm)',color:'#ef4444',font:{size:10}}},
+    null
+  )
+});
+
+new Chart(document.getElementById('bioC'),{
+  type:'bar',
+  data:{labels:laps,datasets:[
+    {label:'Zancada',data:stride,backgroundColor:'rgba(139,92,246,0.6)',yAxisID:'y',order:2,borderRadius:3},
+    {label:'GCT',data:gct,type:'line',borderColor:'#0ea5e9',tension:0.3,yAxisID:'y1',order:1,pointRadius:3,pointBackgroundColor:'#0ea5e9'}
+  ]},
+  options:gOpts(
+    {min:0.88,max:1.12,ticks:{callback:v=>v.toFixed(2)+'m',color:'#7c3aed'},title:{display:true,text:'Zancada (m)',color:'#7c3aed',font:{size:10}}},
+    {min:244,max:265,ticks:{callback:v=>v+'ms',color:'#0ea5e9'},title:{display:true,text:'GCT (ms)',color:'#0ea5e9',font:{size:10}}}
+  )
+});
+
+new Chart(document.getElementById('compC'),{
+  type:'bar',
+  data:{labels:laps,datasets:[
+    {label:'Act 1 W/kg',data:wkg1,backgroundColor:'rgba(99,102,241,0.6)',borderRadius:3},
+    {label:'Act 2 W/kg',data:wkg2,backgroundColor:'rgba(239,68,68,0.6)',borderRadius:3}
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10}}},
+    scales:{
+      x:{ticks:{font:{size:9.5},autoSkip:false},grid:{display:false}},
+      y:{min:3.8,max:5.5,ticks:{callback:v=>v.toFixed(1)+' W/kg',font:{size:10}},grid:{color:'rgba(128,128,128,0.1)'},title:{display:true,text:'Potencia (W/kg)',font:{size:10}}}
+    }
+  }
+});
+
+function sc(t){
+  ['perf','fc','bio','comp'].forEach(id=>{
+    document.getElementById('c-'+id).style.display=id===t?'block':'none';
+  });
+  document.querySelectorAll('.tb').forEach((b,i)=>{
+    b.classList.toggle('on',['perf','fc','bio','comp'][i]===t);
+  });
+}
+</script>
+
+</div>
+</body>
+</html>
