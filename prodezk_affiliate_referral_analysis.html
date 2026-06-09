@@ -1,0 +1,664 @@
+
+<h2 class="sr-only">Análisis estratégico de programas de afiliados y referidos para Prodezk.com</h2>
+
+<style>
+  .pz-root { font-family: var(--font-sans); color: var(--color-text-primary); padding: 0 0 2rem; }
+  .pz-hero { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.5rem; margin-bottom: 2rem; }
+  .pz-tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: var(--border-radius-md); letter-spacing: .04em; text-transform: uppercase; }
+  .pz-tag-blue { background: #E6F1FB; color: #0C447C; }
+  .pz-tag-teal { background: #E1F5EE; color: #085041; }
+  .pz-tag-amber { background: #FAEEDA; color: #633806; }
+  .pz-tag-coral { background: #FAECE7; color: #712B13; }
+  .pz-tag-purple { background: #EEEDFE; color: #3C3489; }
+  .pz-tag-green { background: #EAF3DE; color: #27500A; }
+  .pz-section { margin-bottom: 2.5rem; }
+  .pz-section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: .06em; margin: 0 0 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: .5rem; }
+  .pz-metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .pz-metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: .9rem 1rem; }
+  .pz-metric-label { font-size: 12px; color: var(--color-text-secondary); margin: 0 0 4px; }
+  .pz-metric-val { font-size: 22px; font-weight: 500; margin: 0; line-height: 1.2; }
+  .pz-metric-sub { font-size: 11px; color: var(--color-text-tertiary); margin: 3px 0 0; }
+  .pz-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .pz-card-highlight { border: 2px solid #185FA5; }
+  .pz-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .pz-card-name { font-size: 15px; font-weight: 500; margin: 0; }
+  .pz-card-sub { font-size: 12px; color: var(--color-text-secondary); margin: 2px 0 0; }
+  .pz-rows { display: flex; flex-direction: column; gap: 0; }
+  .pz-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 0.5px solid var(--color-border-tertiary); font-size: 13px; }
+  .pz-row:last-child { border-bottom: none; }
+  .pz-row-label { color: var(--color-text-secondary); }
+  .pz-row-val { font-weight: 500; }
+  .pz-bar-wrap { margin: 0 0 .6rem; }
+  .pz-bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .pz-bar-track { background: var(--color-background-secondary); border-radius: 4px; height: 8px; overflow: hidden; }
+  .pz-bar-fill { height: 8px; border-radius: 4px; }
+  .pz-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pz-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .pz-insight { background: var(--color-background-secondary); border-left: 3px solid #185FA5; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: .8rem 1rem; margin-bottom: 10px; font-size: 13px; line-height: 1.6; }
+  .pz-insight-title { font-weight: 500; margin: 0 0 4px; }
+  .pz-insight-body { color: var(--color-text-secondary); margin: 0; }
+  .pz-phase { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .pz-phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .pz-phase-num { width: 28px; height: 28px; border-radius: 50%; background: #185FA5; color: white; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+  .pz-phase-title { font-size: 14px; font-weight: 500; margin: 0; }
+  .pz-phase-time { font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+  .pz-ul { margin: 0; padding-left: 16px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.8; }
+  .pz-tab-wrap { display: flex; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .pz-tab { padding: 6px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); cursor: pointer; font-size: 13px; color: var(--color-text-secondary); }
+  .pz-tab.active { background: #185FA5; color: white; border-color: #185FA5; }
+  .pz-panel { display: none; }
+  .pz-panel.active { display: block; }
+  .pz-funnel-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .pz-funnel-bar { flex: 1; background: var(--color-background-secondary); border-radius: 4px; height: 32px; overflow: hidden; position: relative; }
+  .pz-funnel-fill { height: 100%; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 500; color: white; border-radius: 4px; }
+  .pz-funnel-label { font-size: 12px; color: var(--color-text-secondary); min-width: 110px; text-align: right; }
+  .pz-funnel-pct { font-size: 12px; font-weight: 500; min-width: 42px; text-align: right; }
+  .pz-score-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+  .pz-score-name { flex: 1; color: var(--color-text-secondary); }
+  .pz-score-dots { display: flex; gap: 3px; }
+  .pz-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .pz-dot-on { background: #185FA5; }
+  .pz-dot-off { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); }
+  .pz-callout { border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 12px; }
+  .pz-callout-green { background: #EAF3DE; }
+  .pz-callout-amber { background: #FAEEDA; }
+  .pz-callout-title { font-size: 14px; font-weight: 500; margin: 0 0 6px; }
+  .pz-callout-green .pz-callout-title { color: #27500A; }
+  .pz-callout-amber .pz-callout-title { color: #633806; }
+  .pz-callout-body { font-size: 13px; line-height: 1.6; margin: 0; }
+  .pz-callout-green .pz-callout-body { color: #3B6D11; }
+  .pz-callout-amber .pz-callout-body { color: #854F0B; }
+  .pz-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 2rem 0; }
+  @media (max-width: 520px) { .pz-grid2, .pz-grid3 { grid-template-columns: 1fr; } }
+</style>
+
+<div class="pz-root">
+
+  <div class="pz-hero">
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+      <div>
+        <p style="font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.06em; color:var(--color-text-secondary); margin:0 0 4px;">Análisis estratégico · 2025–2026</p>
+        <h1 style="font-size:22px; font-weight:500; margin:0; line-height:1.2;">Programas de Afiliados &amp; Referidos</h1>
+        <p style="font-size:14px; color:var(--color-text-secondary); margin:4px 0 0;">Benchmarks globales + propuesta de implementación para Prodezk</p>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+        <span class="pz-tag pz-tag-blue">Consultoría B2B</span>
+        <span class="pz-tag pz-tag-teal">Formación de empresas en USA</span>
+      </div>
+    </div>
+    <div class="pz-metric-grid">
+      <div class="pz-metric">
+        <p class="pz-metric-label">Mercado global afiliados</p>
+        <p class="pz-metric-val">$27.8B</p>
+        <p class="pz-metric-sub">Proyección 2027</p>
+      </div>
+      <div class="pz-metric">
+        <p class="pz-metric-label">ROI promedio afiliados</p>
+        <p class="pz-metric-val">16:1</p>
+        <p class="pz-metric-sub">Por cada $1 invertido</p>
+      </div>
+      <div class="pz-metric">
+        <p class="pz-metric-label">CR referidos top quartile</p>
+        <p class="pz-metric-val">8%+</p>
+        <p class="pz-metric-sub">Mediana: 3–5% (2026)</p>
+      </div>
+      <div class="pz-metric">
+        <p class="pz-metric-label">Ingresos por referidos</p>
+        <p class="pz-metric-val">30%</p>
+        <p class="pz-metric-sub">Del total en programas top</p>
+      </div>
+      <div class="pz-metric">
+        <p class="pz-metric-label">Share rate saludable</p>
+        <p class="pz-metric-val">5–15%</p>
+        <p class="pz-metric-sub">Clientes que comparten</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pz-section">
+    <p class="pz-section-title">Diferencias clave: afiliados vs. referidos</p>
+    <div class="pz-grid2">
+      <div class="pz-card">
+        <div class="pz-card-header">
+          <div>
+            <p class="pz-card-name">Programa de Afiliados</p>
+            <p class="pz-card-sub">Socios externos orientados al volumen</p>
+          </div>
+          <span class="pz-tag pz-tag-blue">Afiliado</span>
+        </div>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Quién refiere</span><span class="pz-row-val">Creadores, blogs, influencers</span></div>
+          <div class="pz-row"><span class="pz-row-label">Motivación</span><span class="pz-row-val">Comisión económica</span></div>
+          <div class="pz-row"><span class="pz-row-label">Relación</span><span class="pz-row-val">Transaccional, a escala</span></div>
+          <div class="pz-row"><span class="pz-row-label">Costo por adq.</span><span class="pz-row-val">$50–$200 promedio</span></div>
+          <div class="pz-row"><span class="pz-row-label">Confianza del lead</span><span class="pz-row-val">Media</span></div>
+          <div class="pz-row"><span class="pz-row-label">LTV del cliente</span><span class="pz-row-val">Variable</span></div>
+        </div>
+      </div>
+      <div class="pz-card">
+        <div class="pz-card-header">
+          <div>
+            <p class="pz-card-name">Programa de Referidos</p>
+            <p class="pz-card-sub">Clientes actuales como embajadores</p>
+          </div>
+          <span class="pz-tag pz-tag-teal">Referido</span>
+        </div>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Quién refiere</span><span class="pz-row-val">Clientes satisfechos</span></div>
+          <div class="pz-row"><span class="pz-row-label">Motivación</span><span class="pz-row-val">Beneficio + relación</span></div>
+          <div class="pz-row"><span class="pz-row-label">Relación</span><span class="pz-row-val">Confianza, boca a boca</span></div>
+          <div class="pz-row"><span class="pz-row-label">Costo por adq.</span><span class="pz-row-val">$15–$60 promedio</span></div>
+          <div class="pz-row"><span class="pz-row-label">Confianza del lead</span><span class="pz-row-val">Alta (conocen al referidor)</span></div>
+          <div class="pz-row"><span class="pz-row-label">LTV del cliente</span><span class="pz-row-val">16–25% mayor</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="pz-callout pz-callout-green">
+      <p class="pz-callout-title">Insight del implementador</p>
+      <p class="pz-callout-body">Para Prodezk, los referidos de clientes tienen ventaja estructural: el cliente promedio que crea una LLC necesita contabilidad, agente registrado, marcas, y más — lo que convierte cada referido en potencial CLV de $1,200–$3,000+. Eso justifica premios de referido más altos que el estándar del mercado.</p>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Benchmarks de los mejores programas del sector</p>
+    <div class="pz-tab-wrap">
+      <button class="pz-tab active" onclick="showTab('saas')">SaaS / Servicios</button>
+      <button class="pz-tab" onclick="showTab('legales')">Servicios legales</button>
+      <button class="pz-tab" onclick="showTab('metricas')">Métricas clave</button>
+    </div>
+
+    <div id="tab-saas" class="pz-panel active">
+      <div class="pz-card pz-card-highlight" style="margin-bottom:12px;">
+        <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+          <p class="pz-card-name">HubSpot <span style="font-weight:400; color:var(--color-text-secondary)">— Referencia de oro</span></p>
+          <span class="pz-tag pz-tag-blue">Mejor estructurado</span>
+        </div>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">30% recurrente por 12 meses</span></div>
+          <div class="pz-row"><span class="pz-row-label">Niveles</span><span class="pz-row-val">Affiliate → Super → Elite</span></div>
+          <div class="pz-row"><span class="pz-row-label">Cookie</span><span class="pz-row-val">180 días</span></div>
+          <div class="pz-row"><span class="pz-row-label">Materiales</span><span class="pz-row-val">400+ assets (banners, videos, copy)</span></div>
+          <div class="pz-row"><span class="pz-row-label">Plataforma</span><span class="pz-row-val">Impact</span></div>
+          <div class="pz-row"><span class="pz-row-label">CR estimada</span><span class="pz-row-val">6–10% audiencias B2B</span></div>
+        </div>
+        <p style="font-size:12px; color:var(--color-text-tertiary); margin:10px 0 0;">Punto clave: el tier "Elite" tiene comisiones personalizadas — incentiva a los top performers a quedarse.</p>
+      </div>
+
+      <div class="pz-grid2">
+        <div class="pz-card">
+          <div class="pz-card-header">
+            <div><p class="pz-card-name">Notion</p><p class="pz-card-sub">Productividad</p></div>
+            <span class="pz-tag pz-tag-purple">Alta comisión inicial</span>
+          </div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">50% del 1er año</span></div>
+            <div class="pz-row"><span class="pz-row-label">Cookie</span><span class="pz-row-val">180 días</span></div>
+            <div class="pz-row"><span class="pz-row-label">Bonus</span><span class="pz-row-val">+5% por sub-afiliados</span></div>
+          </div>
+        </div>
+        <div class="pz-card">
+          <div class="pz-card-header">
+            <div><p class="pz-card-name">Shopify</p><p class="pz-card-sub">Ecommerce</p></div>
+            <span class="pz-tag pz-tag-green">Alto ticket</span>
+          </div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">$100–$500 por referido</span></div>
+            <div class="pz-row"><span class="pz-row-label">CR</span><span class="pz-row-val">6–10%</span></div>
+            <div class="pz-row"><span class="pz-row-label">Pago promedio</span><span class="pz-row-val">$58 por referral</span></div>
+          </div>
+        </div>
+        <div class="pz-card">
+          <div class="pz-card-header">
+            <div><p class="pz-card-name">NordVPN</p><p class="pz-card-sub">Tech / SaaS</p></div>
+            <span class="pz-tag pz-tag-coral">Comisión híbrida</span>
+          </div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">40–100% nuevo + 30% renewal</span></div>
+            <div class="pz-row"><span class="pz-row-label">Cookie</span><span class="pz-row-val">30 días</span></div>
+            <div class="pz-row"><span class="pz-row-label">Plataforma</span><span class="pz-row-val">CJ Affiliate + Impact</span></div>
+          </div>
+        </div>
+        <div class="pz-card">
+          <div class="pz-card-header">
+            <div><p class="pz-card-name">Freshworks</p><p class="pz-card-sub">CRM / Soporte</p></div>
+            <span class="pz-tag pz-tag-amber">Multi-producto</span>
+          </div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">15–20% recurrente</span></div>
+            <div class="pz-row"><span class="pz-row-label">Audiencia</span><span class="pz-row-val">SMBs, B2B content</span></div>
+            <div class="pz-row"><span class="pz-row-label">Ventaja</span><span class="pz-row-val">Compite vs Salesforce precio</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-legales" class="pz-panel">
+      <div class="pz-card" style="margin-bottom:12px;">
+        <div class="pz-card-header">
+          <div><p class="pz-card-name">LegalZoom — Competidor directo de Prodezk</p></div>
+          <span class="pz-tag pz-tag-coral">Alta relevancia</span>
+        </div>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Modelo</span><span class="pz-row-val">Pay-per-sale (PPS)</span></div>
+          <div class="pz-row"><span class="pz-row-label">CPA base</span><span class="pz-row-val">$125 por adquisición</span></div>
+          <div class="pz-row"><span class="pz-row-label">Cookie</span><span class="pz-row-val">30 días</span></div>
+          <div class="pz-row"><span class="pz-row-label">Embedded program</span><span class="pz-row-val">+30% CR vs modelo referido estándar (Wix test)</span></div>
+          <div class="pz-row"><span class="pz-row-label">Plataforma partners</span><span class="pz-row-val">Portal propio + CJ</span></div>
+          <div class="pz-row"><span class="pz-row-label">Audiencia ideal</span><span class="pz-row-val">Bloggers, YouTubers, asesores negocios</span></div>
+        </div>
+        <div class="pz-callout pz-callout-amber" style="margin-top:10px;">
+          <p class="pz-callout-title">Lo que Prodezk puede superar</p>
+          <p class="pz-callout-body">LegalZoom opera 100% en inglés con poca penetración al mercado hispanohablante. Prodezk tiene ventaja de idioma, relación cultural y expertise específico en expansión a EE.UU. desde LATAM.</p>
+        </div>
+      </div>
+      <div class="pz-grid2">
+        <div class="pz-card">
+          <div class="pz-card-header"><div><p class="pz-card-name">Northwest Registered Agent</p><p class="pz-card-sub">Formación LLC</p></div></div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Enfoque</span><span class="pz-row-val">Privacidad + same-day filing</span></div>
+            <div class="pz-row"><span class="pz-row-label">Modelo</span><span class="pz-row-val">CPA por formación</span></div>
+            <div class="pz-row"><span class="pz-row-label">Diferenciador</span><span class="pz-row-val">Customer service experto</span></div>
+          </div>
+        </div>
+        <div class="pz-card">
+          <div class="pz-card-header"><div><p class="pz-card-name">ZenBusiness / Bizee</p><p class="pz-card-sub">Formación LLC</p></div></div>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión</span><span class="pz-row-val">CPA competitivo</span></div>
+            <div class="pz-row"><span class="pz-row-label">Modelo</span><span class="pz-row-val">Free tier + upsell</span></div>
+            <div class="pz-row"><span class="pz-row-label">Fortaleza</span><span class="pz-row-val">Volumen masivo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-metricas" class="pz-panel">
+      <div style="margin-bottom:1.5rem;">
+        <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1rem;">Tasas de conversión promedio del sector — porcentaje de visitas que convierten</p>
+        <div class="pz-bar-wrap">
+          <div class="pz-bar-label"><span>Top quartile (referidos)</span><span>8%+</span></div>
+          <div class="pz-bar-track"><div class="pz-bar-fill" style="width:80%; background:#185FA5;"></div></div>
+        </div>
+        <div class="pz-bar-wrap">
+          <div class="pz-bar-label"><span>Shopify / HubSpot afiliados</span><span>6–10%</span></div>
+          <div class="pz-bar-track"><div class="pz-bar-fill" style="width:70%; background:#378ADD;"></div></div>
+        </div>
+        <div class="pz-bar-wrap">
+          <div class="pz-bar-label"><span>Mediana referidos ecommerce</span><span>3–5%</span></div>
+          <div class="pz-bar-track"><div class="pz-bar-fill" style="width:40%; background:#85B7EB;"></div></div>
+        </div>
+        <div class="pz-bar-wrap">
+          <div class="pz-bar-label"><span>Tecnología / soluciones SaaS</span><span>+25% YoY</span></div>
+          <div class="pz-bar-track"><div class="pz-bar-fill" style="width:55%; background:#1D9E75;"></div></div>
+        </div>
+        <div class="pz-bar-wrap">
+          <div class="pz-bar-label"><span>Afiliados contenido/review</span><span>~9% de txns</span></div>
+          <div class="pz-bar-track"><div class="pz-bar-fill" style="width:30%; background:#B4B2A9;"></div></div>
+        </div>
+      </div>
+      <div class="pz-grid2">
+        <div class="pz-card">
+          <p style="font-size:13px; font-weight:500; margin:0 0 8px;">Duración de cookie óptima</p>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Mínimo viable</span><span class="pz-row-val">30 días</span></div>
+            <div class="pz-row"><span class="pz-row-label">Estándar competitivo</span><span class="pz-row-val">90 días</span></div>
+            <div class="pz-row"><span class="pz-row-label">Ventaja diferencial</span><span class="pz-row-val">180 días (HubSpot, Notion)</span></div>
+          </div>
+        </div>
+        <div class="pz-card">
+          <p style="font-size:13px; font-weight:500; margin:0 0 8px;">Distribución de ingresos SaaS afiliados</p>
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Top 6% de programas</span><span class="pz-row-val">$1M+ / año</span></div>
+            <div class="pz-row"><span class="pz-row-label">Siguiente 9.2%</span><span class="pz-row-val">$500K–$1M</span></div>
+            <div class="pz-row"><span class="pz-row-label">Segmento medio 44%</span><span class="pz-row-val">$100K–$500K</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Comparativo de estructuras de comisión</p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed;">
+        <thead>
+          <tr style="border-bottom:0.5px solid var(--color-border-secondary);">
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:18%;">Empresa</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:14%;">Modelo</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:18%;">Comisión</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:12%;">Cookie</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:12%;">Tiers</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:14%;">CR estimada</th>
+            <th style="text-align:left; padding:8px 6px; color:var(--color-text-secondary); font-weight:500; width:12%;">Calificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary); background:var(--color-background-secondary);">
+            <td style="padding:8px 6px; font-weight:500;">HubSpot</td>
+            <td style="padding:8px 6px;">Recurrente</td>
+            <td style="padding:8px 6px;">30% / 12 meses</td>
+            <td style="padding:8px 6px;">180 días</td>
+            <td style="padding:8px 6px;">3 niveles</td>
+            <td style="padding:8px 6px;">6–10%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-green">★★★★★</span></td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+            <td style="padding:8px 6px; font-weight:500;">Notion</td>
+            <td style="padding:8px 6px;">Recurrente</td>
+            <td style="padding:8px 6px;">50% / 1er año</td>
+            <td style="padding:8px 6px;">180 días</td>
+            <td style="padding:8px 6px;">Sub-afiliados</td>
+            <td style="padding:8px 6px;">5–8%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-green">★★★★★</span></td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary); background:var(--color-background-secondary);">
+            <td style="padding:8px 6px; font-weight:500;">Shopify</td>
+            <td style="padding:8px 6px;">CPA fijo</td>
+            <td style="padding:8px 6px;">$100–$500 / txn</td>
+            <td style="padding:8px 6px;">30 días</td>
+            <td style="padding:8px 6px;">Volumen</td>
+            <td style="padding:8px 6px;">6–10%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-blue">★★★★☆</span></td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+            <td style="padding:8px 6px; font-weight:500;">NordVPN</td>
+            <td style="padding:8px 6px;">Híbrido</td>
+            <td style="padding:8px 6px;">40–100% + 30% renewal</td>
+            <td style="padding:8px 6px;">30 días</td>
+            <td style="padding:8px 6px;">CJ + Impact</td>
+            <td style="padding:8px 6px;">4–7%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-blue">★★★★☆</span></td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary); background:var(--color-background-secondary);">
+            <td style="padding:8px 6px; font-weight:500;">LegalZoom</td>
+            <td style="padding:8px 6px;">CPA</td>
+            <td style="padding:8px 6px;">$125 base (escala)</td>
+            <td style="padding:8px 6px;">30 días</td>
+            <td style="padding:8px 6px;">Volumen</td>
+            <td style="padding:8px 6px;">3–6%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-amber">★★★☆☆</span></td>
+          </tr>
+          <tr style="border-bottom:0.5px solid var(--color-border-tertiary);">
+            <td style="padding:8px 6px; font-weight:500;">Freshworks</td>
+            <td style="padding:8px 6px;">Recurrente</td>
+            <td style="padding:8px 6px;">15–20%</td>
+            <td style="padding:8px 6px;">60 días</td>
+            <td style="padding:8px 6px;">Multi-producto</td>
+            <td style="padding:8px 6px;">4–8%</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-amber">★★★☆☆</span></td>
+          </tr>
+          <tr style="background:#E6F1FB;">
+            <td style="padding:8px 6px; font-weight:500; color:#0C447C;">Prodezk (propuesta)</td>
+            <td style="padding:8px 6px; color:#0C447C;">Híbrido</td>
+            <td style="padding:8px 6px; color:#0C447C;">$150–400 CPA + 15% upsell</td>
+            <td style="padding:8px 6px; color:#0C447C;">90 días</td>
+            <td style="padding:8px 6px; color:#0C447C;">3 niveles</td>
+            <td style="padding:8px 6px; color:#0C447C;">5–9% meta</td>
+            <td style="padding:8px 6px;"><span class="pz-tag pz-tag-blue">Objetivo</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Funnel de conversión — modelo referidos para Prodezk</p>
+    <div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Base clientes activos</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:100%; background:#185FA5;">15,000 clientes</div></div>
+        <span class="pz-funnel-pct">100%</span>
+      </div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Contactados al programa</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:70%; background:#378ADD;">10,500</div></div>
+        <span class="pz-funnel-pct">70%</span>
+      </div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Se registran (share rate)</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:15%; background:#85B7EB;">1,500–2,250</div></div>
+        <span class="pz-funnel-pct">10–15%</span>
+      </div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Comparten activamente</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:10%; background:#B5D4F4;">900–1,350</div></div>
+        <span class="pz-funnel-pct">60% de registrados</span>
+      </div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Leads generados</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:7%; background:#1D9E75;">2,700–4,050</div></div>
+        <span class="pz-funnel-pct">3 leads/ref promedio</span>
+      </div>
+      <div class="pz-funnel-row">
+        <span class="pz-funnel-label">Conversiones (CR 6%)</span>
+        <div class="pz-funnel-bar"><div class="pz-funnel-fill" style="width:4%; background:#639922;">162–243</div></div>
+        <span class="pz-funnel-pct">6% CR</span>
+      </div>
+    </div>
+    <div class="pz-callout pz-callout-green" style="margin-top:12px;">
+      <p class="pz-callout-title">Proyección de ingresos — Año 1</p>
+      <p class="pz-callout-body">Con 200 conversiones promedio, un ticket promedio de $800 (LLC + servicio base) y upsell contable/agente registrado en 40% de los casos: <strong style="color:#27500A;">$160,000–$350,000 en ingresos incrementales</strong> sin costo de adquisición publicitario, solo costo de premio al referidor.</p>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Diseño del programa Prodezk — propuesta de implementación</p>
+
+    <div class="pz-grid2" style="margin-bottom:1.5rem;">
+      <div>
+        <p style="font-size:14px; font-weight:500; margin:0 0 10px;">Programa de referidos (clientes → clientes)</p>
+        <div class="pz-card">
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Premio al referidor</span><span class="pz-row-val">$75–$150 crédito o cash</span></div>
+            <div class="pz-row"><span class="pz-row-label">Premio al referido</span><span class="pz-row-val">10% descuento primer servicio</span></div>
+            <div class="pz-row"><span class="pz-row-label">Seguimiento</span><span class="pz-row-val">90 días cookie</span></div>
+            <div class="pz-row"><span class="pz-row-label">Activación</span><span class="pz-row-val">Post-entrega exitosa del servicio</span></div>
+            <div class="pz-row"><span class="pz-row-label">Niveles</span><span class="pz-row-val">Plata / Oro / Platino</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:14px; font-weight:500; margin:0 0 10px;">Programa de afiliados (socios externos)</p>
+        <div class="pz-card">
+          <div class="pz-rows">
+            <div class="pz-row"><span class="pz-row-label">Comisión base</span><span class="pz-row-val">$150–$200 por LLC formada</span></div>
+            <div class="pz-row"><span class="pz-row-label">Upsell contabilidad</span><span class="pz-row-val">15% comisión recurrente / 6m</span></div>
+            <div class="pz-row"><span class="pz-row-label">Cookie</span><span class="pz-row-val">90 días</span></div>
+            <div class="pz-row"><span class="pz-row-label">Perfil afiliado</span><span class="pz-row-val">YouTubers hispanos, blogs LATAM</span></div>
+            <div class="pz-row"><span class="pz-row-label">Plataforma</span><span class="pz-row-val">Rewardful o PartnerStack</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:14px; font-weight:500; margin:0 0 10px;">Estructura de niveles (programa referidos)</p>
+    <div class="pz-grid3" style="margin-bottom:1.5rem;">
+      <div class="pz-card">
+        <p style="font-size:12px; font-weight:500; color:var(--color-text-secondary); margin:0 0 4px; text-transform:uppercase; letter-spacing:.04em;">Plata</p>
+        <p style="font-size:18px; font-weight:500; margin:0 0 8px;">1–3 referidos</p>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Bono</span><span class="pz-row-val">$75 por referido</span></div>
+          <div class="pz-row"><span class="pz-row-label">Extra</span><span class="pz-row-val">Acceso a webinar exclusivo</span></div>
+        </div>
+      </div>
+      <div class="pz-card" style="border:2px solid #185FA5;">
+        <p style="font-size:12px; font-weight:500; color:#0C447C; margin:0 0 4px; text-transform:uppercase; letter-spacing:.04em;">Oro — Popular</p>
+        <p style="font-size:18px; font-weight:500; margin:0 0 8px;">4–10 referidos</p>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Bono</span><span class="pz-row-val">$125 por referido</span></div>
+          <div class="pz-row"><span class="pz-row-label">Extra</span><span class="pz-row-val">Consultoría gratis 1 hora</span></div>
+        </div>
+      </div>
+      <div class="pz-card">
+        <p style="font-size:12px; font-weight:500; color:var(--color-text-secondary); margin:0 0 4px; text-transform:uppercase; letter-spacing:.04em;">Platino</p>
+        <p style="font-size:18px; font-weight:500; margin:0 0 8px;">11+ referidos</p>
+        <div class="pz-rows">
+          <div class="pz-row"><span class="pz-row-label">Bono</span><span class="pz-row-val">$200 + comisión recurrente</span></div>
+          <div class="pz-row"><span class="pz-row-label">Extra</span><span class="pz-row-val">Revenue share en upsells</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Roadmap de implementación — 12 meses</p>
+
+    <div class="pz-phase">
+      <div class="pz-phase-header">
+        <div class="pz-phase-num">1</div>
+        <div>
+          <p class="pz-phase-title">Fundación y tecnología</p>
+          <p class="pz-phase-time">Meses 1–2</p>
+        </div>
+        <span class="pz-tag pz-tag-coral" style="margin-left:auto;">Crítico</span>
+      </div>
+      <ul class="pz-ul">
+        <li>Seleccionar plataforma: Rewardful ($49/mes, integra Stripe) o PartnerStack (para ecosistema mayor)</li>
+        <li>Crear portal de afiliados y referidos con dashboard propio branded Prodezk</li>
+        <li>Definir tracking parameters y atribución multi-touch</li>
+        <li>Redactar términos, políticas de comisión y acuerdo de afiliado</li>
+        <li>Configurar pagos vía PayPal / transferencia en USD</li>
+      </ul>
+    </div>
+
+    <div class="pz-phase">
+      <div class="pz-phase-header">
+        <div class="pz-phase-num">2</div>
+        <div>
+          <p class="pz-phase-title">Lanzamiento con base de clientes existente</p>
+          <p class="pz-phase-time">Meses 2–4</p>
+        </div>
+        <span class="pz-tag pz-tag-amber" style="margin-left:auto;">Alta prioridad</span>
+      </div>
+      <ul class="pz-ul">
+        <li>Email campaign a los 15,000 clientes activos presentando el programa de referidos</li>
+        <li>Segmentar: identificar los 500 "super usuarios" con mayor NPS para early adopters</li>
+        <li>Crear materiales de referido: enlace personalizado, mensaje pre-redactado para WhatsApp/email</li>
+        <li>Activar notificaciones automáticas post-entrega de servicio ("¿Conoces a alguien más?")</li>
+        <li>Meta: 300 referidores activos en Mes 4</li>
+      </ul>
+    </div>
+
+    <div class="pz-phase">
+      <div class="pz-phase-header">
+        <div class="pz-phase-num">3</div>
+        <div>
+          <p class="pz-phase-title">Reclutamiento de afiliados externos</p>
+          <p class="pz-phase-time">Meses 4–7</p>
+        </div>
+        <span class="pz-tag pz-tag-blue" style="margin-left:auto;">Expansión</span>
+      </div>
+      <ul class="pz-ul">
+        <li>Identificar 50 YouTubers, podcasters y bloggers hispanohablantes de negocios, finanzas y emprendimiento</li>
+        <li>Crear kit de afiliado: banners, scripts de video, comparativos vs. competencia, testimoniales</li>
+        <li>Negociar condiciones personalizadas con los top 10 (higher CPA a cambio de contenido exclusivo)</li>
+        <li>Integrar enlace en plataformas como PartnerStack para inbound de nuevos afiliados</li>
+        <li>Meta: 30 afiliados activos con al menos 1 conversión mensual</li>
+      </ul>
+    </div>
+
+    <div class="pz-phase">
+      <div class="pz-phase-header">
+        <div class="pz-phase-num">4</div>
+        <div>
+          <p class="pz-phase-title">Optimización y escala</p>
+          <p class="pz-phase-time">Meses 7–12</p>
+        </div>
+        <span class="pz-tag pz-tag-green" style="margin-left:auto;">Crecimiento</span>
+      </div>
+      <ul class="pz-ul">
+        <li>Análisis mensual: identificar top 20% de afiliados/referidores que generan 80% de resultados</li>
+        <li>Crear tier "Embajador Elite" con condiciones premium y acceso a Prodezk network</li>
+        <li>Lanzar sub-programa B2B: contadores, abogados y asesores que recomienden Prodezk a sus clientes</li>
+        <li>Implementar co-marketing con los afiliados más productivos (webinars conjuntos, contenido co-branded)</li>
+        <li>Meta Mes 12: 500+ nuevos clientes vía programa, canal representando 20%+ de adquisición total</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="pz-divider">
+
+  <div class="pz-section">
+    <p class="pz-section-title">Insights estratégicos — análisis del implementador</p>
+
+    <div class="pz-insight">
+      <p class="pz-insight-title">El momento del referido es todo</p>
+      <p class="pz-insight-body">Los programas de mayor CR lanzan el prompt de referido en el momento de mayor satisfacción del cliente: cuando reciben la confirmación de su LLC, cuando la cuenta bancaria es aprobada, cuando reciben su primer reporte contable. Prodezk tiene múltiples "peak moments" naturales para activar esto.</p>
+    </div>
+
+    <div class="pz-insight">
+      <p class="pz-insight-title">Cash supera a créditos en conversión de referidores</p>
+      <p class="pz-insight-body">Datos 2025: los descuentos en efectivo o transferencias superan en ~40% la CR vs. créditos o puntos. Para el segmento empresarial de Prodezk, el cash es especialmente relevante — los clientes son empresarios que entienden el valor del dinero.</p>
+    </div>
+
+    <div class="pz-insight">
+      <p class="pz-insight-title">El nicho hispano de negocios en EE.UU. está sub-atendido por afiliados</p>
+      <p class="pz-insight-body">LegalZoom y Northwest no tienen programas con materiales en español ni comisiones en USD que atraigan a creators hispanohablantes. Prodezk puede construir una red de afiliados exclusiva en este nicho con ventaja de primer movimiento.</p>
+    </div>
+
+    <div class="pz-insight">
+      <p class="pz-insight-title">Integrar el programa en el flujo post-compra multiplica resultados</p>
+      <p class="pz-insight-body">LegalZoom reportó +30% en CR al integrar el programa de partners directamente en el flujo de checkout de Wix. Para Prodezk: añadir el link de referido al email de confirmación, al portal del cliente y al chat de WhatsApp post-servicio puede triplicar el share rate sin costo adicional.</p>
+    </div>
+
+    <div class="pz-insight">
+      <p class="pz-insight-title">Los asesores B2B son el afiliado más valioso para Prodezk</p>
+      <p class="pz-insight-body">Contadores, abogados, asesores de inversión y consultores de negocios que trabajan con emprendedores latinoamericanos son el perfil de afiliado de mayor LTV. Una comisión de $200–$400 por LLC más 15% en contabilidad recurrente puede convertirlos en un canal semi-exclusivo de adquisición.</p>
+    </div>
+  </div>
+
+  <div class="pz-metric-grid" style="margin-bottom:0;">
+    <div class="pz-metric">
+      <p class="pz-metric-label">KPI mes 3</p>
+      <p class="pz-metric-val" style="font-size:18px;">300</p>
+      <p class="pz-metric-sub">Referidores activos</p>
+    </div>
+    <div class="pz-metric">
+      <p class="pz-metric-label">KPI mes 6</p>
+      <p class="pz-metric-val" style="font-size:18px;">30</p>
+      <p class="pz-metric-sub">Afiliados externos activos</p>
+    </div>
+    <div class="pz-metric">
+      <p class="pz-metric-label">KPI mes 12</p>
+      <p class="pz-metric-val" style="font-size:18px;">20%</p>
+      <p class="pz-metric-sub">% adquisición vía programa</p>
+    </div>
+    <div class="pz-metric">
+      <p class="pz-metric-label">ROI objetivo</p>
+      <p class="pz-metric-val" style="font-size:18px;">8:1</p>
+      <p class="pz-metric-sub">Ingresos vs. costo programa</p>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem; display:flex; gap:8px; flex-wrap:wrap;">
+    <button class="pz-tab" onclick="sendPrompt('Dame un plan detallado de reclutamiento de afiliados YouTubers para Prodezk en el mercado hispano')">Plan reclutamiento afiliados ↗</button>
+    <button class="pz-tab" onclick="sendPrompt('Escríbeme el email de lanzamiento del programa de referidos para los 15,000 clientes de Prodezk')">Email de lanzamiento ↗</button>
+    <button class="pz-tab" onclick="sendPrompt('Ayúdame a calcular el costo del programa de referidos vs. el costo de adquisición actual de Prodezk')">Calculadora de ROI ↗</button>
+    <button class="pz-tab" onclick="sendPrompt('¿Qué plataforma de gestión de afiliados me recomiendas para Prodezk: Rewardful o PartnerStack?')">¿Qué plataforma usar? ↗</button>
+  </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+  document.querySelectorAll('.pz-tab').forEach(b => {
+    if(b.getAttribute('onclick') && b.getAttribute('onclick').includes("showTab('")) {
+      b.classList.remove('active');
+      if(b.getAttribute('onclick').includes("'" + tab + "'")) b.classList.add('active');
+    }
+  });
+  ['saas','legales','metricas'].forEach(id => {
+    const el = document.getElementById('tab-' + id);
+    if(el) el.classList.toggle('active', id === tab);
+  });
+}
+</script>
